@@ -36,19 +36,26 @@ public class CourseRepository {
 	}
 
 	public void deleteById(Long id) {
-		Course course = findById(id);
-		em.remove(course);
+		Course course1 = findById(id);
+		em.remove(course1);
 	}
 
 	public void playWithEntityManager() {
-		Course course = new Course("Web Services in 100 Steps");
-		em.persist(course);
-		
-		//이 파일에서 실행했을 때
-		//transactional은 같은 scope에서는 하나의 과정이라고 인식
-		//현재 상태에서는 둘다 insert (의도는 밑문장은 수정)
-		//application context에서 실행하면 정상적으로 작동
-		course.setName("WebServices in 100 Steps - Updated");
-	}
+		Course course1 = new Course("Web Services in 100 Steps");
+		em.persist(course1);
+		Course course2 = new Course("Angular Js in 100 Steps");
+		em.persist(course2);
 
+		em.flush(); // 영속성 컨텍스트에 있는 거를 지우고 db에 바로 반영
+
+		// em.clear(); // 이거하면 밑에문장 실행X 영속성 컨텍스트를 지우는데 db에 반영을 안하고
+
+		// em.detach(course2); // 준영속성 컨텍스트로 전환-> 영속성 컨텍스트가 제공하는 기능 사용불가(ex.변경감지-> update불가)
+		course1.setName("WebServices in 100 Steps - Updated");
+		course2.setName("Angular Js in 100 Steps - Updated");
+
+		em.refresh(course1); // 해당 entity를 다시 읽어옴 cours1이 다시 Web Services in 100 Steps로 변경
+
+		em.flush();
+	}
 }
