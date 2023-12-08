@@ -40,24 +40,34 @@ public class CourseRepository {
 		em.remove(course1);
 	}
 
+	// flush, clear, detach, refresh 연습
+//	public void playWithEntityManager() {
+//		Course course1 = new Course("Web Services in 100 Steps");
+//		em.persist(course1);
+//		
+//		Course course2 = new Course("Angular Js in 100 Steps");
+//		em.persist(course2);
+//
+//		em.flush(); // 영속성 컨텍스트에 있는 거를 지우고 db에 바로 반영
+//
+//		// em.clear(); // 이거하면 밑에문장 실행X 영속성 컨텍스트를 지우는데 db에 반영을 안하고
+//
+//		// em.detach(course2); // 준영속성 컨텍스트로 전환-> 영속성 컨텍스트가 제공하는 기능 사용불가(ex.변경감지-> update불가)
+//		course1.setName("WebServices in 100 Steps - Updated");
+//		course2.setName("Angular Js in 100 Steps - Updated");
+//
+//		em.refresh(course1); // 해당 entity를 다시 읽어옴 cours1이 다시 Web Services in 100 Steps로 변경
+//
+//		em.flush();
+//	}
+
 	public void playWithEntityManager() {
-		Course course1 = new Course("Web Services in 100 Steps");
+		Course course1 = new Course("Web services in 100 Steps");
 		em.persist(course1);
-		Course course2 = new Course("Angular Js in 100 Steps");
-		em.persist(course2);
 
-		em.flush(); // 영속성 컨텍스트에 있는 거를 지우고 db에 바로 반영
+		Course course2 = findById(10001L);
+		course2.setName("JPA in 50 Steps - Updated");
 
-		// em.clear(); // 이거하면 밑에문장 실행X 영속성 컨텍스트를 지우는데 db에 반영을 안하고
-
-		// em.detach(course2); // 준영속성 컨텍스트로 전환-> 영속성 컨텍스트가 제공하는 기능 사용불가(ex.변경감지-> update불가)
-		course1.setName("WebServices in 100 Steps - Updated");
-		course2.setName("Angular Js in 100 Steps - Updated");
-
-		em.refresh(course1); // 해당 entity를 다시 읽어옴 cours1이 다시 Web Services in 100 Steps로 변경
-
-		em.flush();
 	}
-	
-	
+
 }

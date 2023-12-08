@@ -26,8 +26,7 @@ class CourseRepositoryTest {
 	public void findById_basic() {
 		Course course = repository.findById(10001L);
 		// Course course = repository.findById(10002L); // dirtiescontext때문에 10002없다고 나옴
-		// assertEquals("JPA in 100 Steps", course.getName()); // failure trace에 자세한 오류
-		// 이유 있음
+		// assertEquals("JPA in 100 Steps", course.getName()); // failure trace에 자세한 오류 이유 있음
 		assertEquals("JPA in 50 Steps", course.getName());
 	}
 
