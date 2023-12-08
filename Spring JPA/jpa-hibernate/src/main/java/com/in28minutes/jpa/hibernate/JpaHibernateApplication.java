@@ -10,6 +10,7 @@ import org.springframework.stereotype.Repository;
 
 import com.in28minutes.jpa.hibernate.entity.Course;
 import com.in28minutes.jpa.hibernate.repository.CourseRepository;
+import com.in28minutes.jpa.hibernate.repository.StudentRepository;
 
 @SpringBootApplication
 public class JpaHibernateApplication implements CommandLineRunner {
@@ -17,7 +18,10 @@ public class JpaHibernateApplication implements CommandLineRunner {
 	private Logger logger = LoggerFactory.getLogger(this.getClass());
 	
 	@Autowired
-	private CourseRepository repository;
+	private CourseRepository courseRepository;
+	
+	@Autowired
+	private StudentRepository studentRepository;
 
 	public static void main(String[] args) {
 		SpringApplication.run(JpaHibernateApplication.class, args);
@@ -30,8 +34,9 @@ public class JpaHibernateApplication implements CommandLineRunner {
 //		logger.info("Course 10001 -> {}", course);
 //		//repository.deleteById(10001L);
 //		repository.save(new Course("Microservices in 100 Steps"));
-		repository.playWithEntityManager();
+//		repository.playWithEntityManager();
 		
+		studentRepository.saveStudentWithPassport();
 	}
 
 }
