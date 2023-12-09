@@ -9,15 +9,23 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.annotation.DirtiesContext;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.in28minutes.jpa.hibernate.JpaHibernateApplication;
 import com.in28minutes.jpa.hibernate.entity.Course;
+import com.in28minutes.jpa.hibernate.entity.Review;
 
+import jakarta.persistence.EntityManager;
+
+//junittest == 단위테스트
 //junittest 때문에 test에 application 또 만든듯?
 @SpringBootTest(classes = JpaHibernateApplication.class)
 class CourseRepositoryTest {
 
 	private Logger logger = LoggerFactory.getLogger(this.getClass());
+	
+	@Autowired
+	EntityManager em;
 
 	@Autowired
 	CourseRepository repository;
@@ -26,12 +34,12 @@ class CourseRepositoryTest {
 	public void findById_basic() {
 		Course course = repository.findById(10001L);
 		// Course course = repository.findById(10002L); // dirtiescontext때문에 10002없다고 나옴
-		// assertEquals("JPA in 100 Steps", course.getName()); // failure trace에 자세한 오류 이유 있음
+		// assertEquals("JPA in 100 Steps", course.getName()); // failure trace에 자세한 오류
+		// 이유 있음
 		assertEquals("JPA in 50 Steps", course.getName());
 	}
 
 	@Test
-	// 애플리케이션 컨텍스트 공유를 허용하지 않는 어노테이션; 자신만의 application context를 생성 -> 끝나면 데이터 리셋??
 	@DirtiesContext
 	public void deleteById_basic() {
 		repository.deleteById(10002L);
@@ -39,6 +47,9 @@ class CourseRepositoryTest {
 	}
 
 	@Test
+	// dirties context는 애플리케이션 컨텍스트 공유를 허용하지 않는 어노테이션
+	// 나만의 실험을 하는 넉낌. 내 실험용 메서드임 그니까 데이터는 원래 상태로 보존되어야 하는 것
+	// 만약에 다른 개발자가 select all 해보면 update 전 데이터로 출력-> 데이터 영속성? 유지
 	@DirtiesContext
 	public void save_basic() {
 		// get a course
@@ -53,7 +64,28 @@ class CourseRepositoryTest {
 		// check the value
 		Course course1 = repository.findById(10001L);
 		assertEquals("JPA in 50 Steps - Updated", course1.getName());
+	}
 
+	@Test
+	@DirtiesContext
+	public void playWithEntityManager() {
+		repository.playWithEntityManager();
+	}
+	
+	// one to many relationship
+	@Test
+	@Transactional // 메서드 끝 줄까지 성공이 아니면 데이터 변환X -> 데이터 영속성 유지
+	public void retrieveReviewsForCourse() {
+		Course course = repository.findById(10001L);
+		logger.info("{}", course.getReviews());
+	}
+	
+	// many to one relationship
+	@Test
+	@Transactional 
+	public void retrieveCourseForReview() {
+		Review review = em.find(Review.class, 50001L);
+		logger.info("{}", review.getCourse());
 	}
 
 }
