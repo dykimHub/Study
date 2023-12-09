@@ -7,7 +7,7 @@ JPA and Hibernate - Entities, Relationships, Inheritance Mappings and Annotation
 files: database-demo, junit-in-5-steps  
 
 23/12/07  
-Approach to querying data using JPA and Hibernate - JPQL, Criteria API and Native Queries  
+Approach to querying data using JPA and Hibernate - JPQL, Native Queries  
 files: jpa-hibernate(Course, CourseRepository, JPQLTest, NativeQueriesTest, CourseRepositoryTest, data.sql)  
 
 23/12/08  
