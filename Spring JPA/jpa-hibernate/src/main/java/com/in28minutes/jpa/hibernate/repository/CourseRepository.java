@@ -43,7 +43,7 @@ public class CourseRepository {
 		em.remove(course1);
 	}
 
-	// flush, clear, detach, refresh 연습
+//	flush, clear, detach, refresh 연습
 //	public void playWithEntityManager() {
 //		Course course1 = new Course("Web Services in 100 Steps");
 //		em.persist(course1);

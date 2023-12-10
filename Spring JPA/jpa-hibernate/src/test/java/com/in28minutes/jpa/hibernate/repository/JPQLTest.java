@@ -34,8 +34,7 @@ class JPQLTest {
 
 	@Test
 	public void findById_basic() {
-		// List<Course> resultList = em.createQuery("Select c From Course
-		// c").getResultList();
+		// List<Course> resultList = em.createQuery("Select c From Course c").getResultList();
 		List<Course> resultList = em.createNamedQuery("query_get_all_courses").getResultList();
 		logger.info("Select c From Course c -> {}", resultList);
 	}
@@ -51,8 +50,7 @@ class JPQLTest {
 	@Test
 	public void jpql_where() {
 		TypedQuery<Course> query =
-				// em.createQuery("Select c From Course c where name like '%100 Steps'",
-				// Course.class);
+				// em.createQuery("Select c From Course c where name like '%100 Steps'", Course.class);
 				em.createNamedQuery("query_get_100_Step_courses", Course.class);
 		List<Course> resultList = query.getResultList();
 		logger.info("Select c From Course c  where name like '%100 Steps'-> {}", resultList);
@@ -95,7 +93,7 @@ class JPQLTest {
 		Query query = em.createQuery("Select c, s from Course c JOIN c.students s");
 		List<Object[]> resultList = query.getResultList();
 		logger.info("Results Size -> {}", resultList.size());
-
+		
 		for (Object[] result : resultList) {
 			logger.info("Course {} Student {} ", result[0], result[1]);
 		}
@@ -103,7 +101,6 @@ class JPQLTest {
 	
 	@Test
 	public void left_join() {
-		// 테이블 2개 이상 쓰면 typedquery 못씀
 		Query query = em.createQuery("Select c, s from Course c LEFT JOIN c.students s");
 		List<Object[]> resultList = query.getResultList();
 		logger.info("Results Size -> {}", resultList.size());
@@ -115,7 +112,6 @@ class JPQLTest {
 	
 	@Test
 	public void cross_join() {
-		// 테이블 2개 이상 쓰면 typedquery 못씀
 		Query query = em.createQuery("Select c, s from Course c, Student s");
 		List<Object[]> resultList = query.getResultList();
 		logger.info("Results Size -> {}", resultList.size());
