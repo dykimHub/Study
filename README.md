@@ -4,15 +4,19 @@ https://www.udemy.com/course/hibernate-jpa-tutorial-for-beginners-in-100-steps/
 
 23/12/06  
 JPA and Hibernate - Entities, Relationships, Inheritance Mappings and Annotations  
-database-demo, junit-in-5-steps  
+files: database-demo, junit-in-5-steps  
 
 23/12/07  
-Approach to querying data using JPA and Hibernate - JPQL, Criteria API and Native Queries  
-jpa-hibernate(Course, CourseRepository, JPQLTest, NativeQueriesTest, CourseRepositoryTest, data.sql etc)  
+Approach to querying data using JPA and Hibernate - JPQL, Native Queries  
+files: jpa-hibernate(Course, CourseRepository, JPQLTest, NativeQueriesTest, CourseRepositoryTest, data.sql)  
 
 23/12/08  
-JPA and Hibernate Relationships in depth - One to One, Many to One and Many to Many  
-jpa-hibernate(Passport, Review, Student, StudentRepository, StudentRepositoryTest etc)
+JPA and Hibernate Relationships in depth - One to One  
+files: jpa-hibernate(Passport, Review, Student, StudentRepository, StudentRepositoryTest)
+
+23/12/09  
+JPA and Hibernate Relationships in depth - Many to One and Many to Many  
+files: jpa-hibernate(Review, Course, Student, CourseRepository, CourseRepositoryTest, StudentRepository, StudentRepositoryTest)
 
 Tuning your JPA application with Hibernate - Solve N+1 Queries Issue.     
 Caching - First Level Cache and Second Level Cache with EhCache    
