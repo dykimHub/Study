@@ -15,8 +15,15 @@ JPA and Hibernate Relationships in depth - One to One
 files: jpa-hibernate(Passport, Review, Student, StudentRepository, StudentRepositoryTest)
 
 23/12/09  
-JPA and Hibernate Relationships in depth - Many to One and Many to Many  
+JPA and Hibernate Relationships in depth - Many to One and Many to Many    
 files: jpa-hibernate(Review, Course, Student, CourseRepository, CourseRepositoryTest, StudentRepository, StudentRepositoryTest)
+
+23/12/10  
+JPA and Hibernate Relationships in depth - Inheritance  
+files: jpa-inheritance
+
+Approach to querying data using JPA and Hibernate - Criteria  
+files: jpa-hibernate(CriteriaQueryTest)
 
 Tuning your JPA application with Hibernate - Solve N+1 Queries Issue.     
 Caching - First Level Cache and Second Level Cache with EhCache    
