@@ -19,12 +19,12 @@ import com.in28minutes.jpa.hibernate.repository.StudentRepository;
 
 @SpringBootApplication
 public class JpaHibernateApplication implements CommandLineRunner {
-	
+
 	private Logger logger = LoggerFactory.getLogger(this.getClass());
-	
+
 	@Autowired
 	private CourseRepository courseRepository;
-	
+
 	@Autowired
 	private StudentRepository studentRepository;
 
@@ -39,18 +39,19 @@ public class JpaHibernateApplication implements CommandLineRunner {
 //		//repository.deleteById(10001L);
 //		repository.save(new Course("Microservices in 100 Steps"));
 //		repository.playWithEntityManager();
-		
+
 //		studentRepository.saveStudentWithPassport();
-		
+
 //		courseRepository.addHardcodedReviewsForCourse();
-		
+
 //		List<Review> reviews = new ArrayList<>();
 //		reviews.add(new Review("5", "Great Hands-on Stuff"));
 //		reviews.add(new Review("5", "Hatsoff"));
 //		courseRepository.addReviewsForCourse(10003L, reviews);
-		
+
 //		studentRepository.insertHardCodedStudentAndCourse();
 		studentRepository.insertStudentAndCourse(new Student("Jack"), new Course("Microservices in 100 Steps"));
+
 	}
 
 }
