@@ -9,6 +9,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.annotation.DirtiesContext;
+import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.in28minutes.jpa.hibernate.JpaHibernateApplication;
@@ -23,7 +24,7 @@ import jakarta.persistence.EntityManager;
 class CourseRepositoryTest {
 
 	private Logger logger = LoggerFactory.getLogger(this.getClass());
-	
+
 	@Autowired
 	EntityManager em;
 
@@ -71,7 +72,7 @@ class CourseRepositoryTest {
 	public void playWithEntityManager() {
 		repository.playWithEntityManager();
 	}
-	
+
 	// one to many relationship
 	@Test
 	@Transactional // 메서드 끝 줄까지 성공이 아니면 데이터 변환X -> 데이터 영속성 유지
@@ -79,10 +80,12 @@ class CourseRepositoryTest {
 		Course course = repository.findById(10001L);
 		logger.info("{}", course.getReviews());
 	}
-	
+
 	// many to one relationship
 	@Test
-	@Transactional 
+	// 통상적으로 사용하는 격리레벨은 read_committed임 application context에 추가 설명 적어놨당
+	// @Transactional(isolation = Isolation.READ_COMMITTED)
+	@Transactional
 	public void retrieveCourseForReview() {
 		Review review = em.find(Review.class, 50001L);
 		logger.info("{}", review.getCourse());
