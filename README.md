@@ -25,6 +25,10 @@ files: jpa-inheritance
 Approach to querying data using JPA and Hibernate - Criteria  
 files: jpa-hibernate(CriteriaQueryTest)
 
+23/12/11  
+Spring Data JPA and Spring Data REST  
+files: spring-data-jpa  
+
 Tuning your JPA application with Hibernate - Solve N+1 Queries Issue.     
 Caching - First Level Cache and Second Level Cache with EhCache    
 Spring Data JPA and Spring Data REST    
