@@ -3,7 +3,7 @@
 https://www.udemy.com/course/hibernate-jpa-tutorial-for-beginners-in-100-steps/
 
 23/12/06  
-JPA and Hibernate - Entities, Relationship, Annotations  
+JPA and Hibernate - Entities, Annotations, JUnit  
 files: database-demo, junit-in-5-steps  
 
 23/12/07  
