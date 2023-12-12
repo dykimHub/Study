@@ -27,8 +27,12 @@ files: jpa-hibernate(CriteriaQueryTest)
 
 23/12/11  
 Spring Data JPA and Spring Data REST  
-files: spring-data-jpa  
+files: spring-data-jpa
+
+23/12/12  
+Caching - First Level Cache and Second Level Cache with EhCache  
+files: jpa-hibernate(CouresRepositoryTest), spring-data-jpa(application.properties, Course, CourseSpringDataRepository)  
 
 Tuning your JPA application with Hibernate - Solve N+1 Queries Issue.     
-Caching - First Level Cache and Second Level Cache with EhCache    
-Spring Data JPA and Spring Data REST    
+ 
+    
