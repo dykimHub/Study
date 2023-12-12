@@ -3,7 +3,7 @@
 https://www.udemy.com/course/hibernate-jpa-tutorial-for-beginners-in-100-steps/
 
 23/12/06  
-JPA and Hibernate - Entities, Relationships, Inheritance Mappings and Annotations  
+JPA and Hibernate - Entities, Relationship, Annotations  
 files: database-demo, junit-in-5-steps  
 
 23/12/07  
@@ -19,7 +19,7 @@ JPA and Hibernate Relationships in depth - Many to One and Many to Many
 files: jpa-hibernate(Review, Course, Student, CourseRepository, CourseRepositoryTest, StudentRepository, StudentRepositoryTest)
 
 23/12/10  
-JPA and Hibernate Relationships in depth - Inheritance  
+JPA and Hibernate Relationships in depth - Inheritance Mappings  
 files: jpa-inheritance
 
 Approach to querying data using JPA and Hibernate - Criteria  
