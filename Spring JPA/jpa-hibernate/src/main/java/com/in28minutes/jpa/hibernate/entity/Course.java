@@ -7,6 +7,7 @@ import java.util.List;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
+import jakarta.persistence.Cacheable;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -23,6 +24,7 @@ import jakarta.persistence.Table;
 @NamedQueries(value = { @NamedQuery(name = "query_get_all_courses", query = "Select c From Course c"),
 		@NamedQuery(name = "query_get_100_Step_courses", query = "Select c From Course c where name like '%100 Steps'") })
 // @Table(name="Course") // 정확하게 테이블을 매핑하는 데 도움을 주는듯
+@Cacheable
 public class Course {
 
 	@Id // primary key

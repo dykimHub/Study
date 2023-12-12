@@ -38,6 +38,7 @@ class CourseSpringDataRepositoryTest {
 
 	@Test
 	public void findById_CoursePresent() {
+		// 찾고자 하는 객체가 있으면 그 객체를 감싸서 Optional로 반환, 없으면 Optional.empty()를 반환.
 		Optional<Course> courseOptional = repository.findById(10001L);
 		assertTrue(courseOptional.isPresent());
 

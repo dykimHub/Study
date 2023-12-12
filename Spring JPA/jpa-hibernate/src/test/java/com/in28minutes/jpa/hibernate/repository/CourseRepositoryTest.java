@@ -41,6 +41,24 @@ class CourseRepositoryTest {
 	}
 
 	@Test
+	@Transactional
+	public void findById_firstLevelCacheDemo() {
+
+		Course course = repository.findById(10001L);
+		logger.info("First Course Retrieved {}", course);
+
+		Course course1 = repository.findById(10001L);
+		// 이 로그 기록이 first course retrieved 바로 밑에 나온다 원래는 course1을 찾는 쿼리문 밑에 나와야 하는데
+		// @transaction 때문에 course entity가 persistence context돼서 똑같은거 찾을 때는 cache에서 찾음
+		// transaction boundary안에서= 하나의 트랜잭션에서만 캐싱하는게 first level transaction
+		// 아무 어노테이션 없이 (configuration 없이) 사용가능 second level 설명 spring-data-jpa 보기
+		logger.info("First Course Retrieved again {}", course1);
+
+		assertEquals("JPA in 50 Steps", course.getName());
+		assertEquals("JPA in 50 Steps", course1.getName());
+	}
+
+	@Test
 	@DirtiesContext
 	public void deleteById_basic() {
 		repository.deleteById(10002L);

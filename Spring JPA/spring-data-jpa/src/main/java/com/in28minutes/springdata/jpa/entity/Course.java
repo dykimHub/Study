@@ -9,6 +9,7 @@ import org.hibernate.annotations.UpdateTimestamp;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
+import jakarta.persistence.Cacheable;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -25,6 +26,9 @@ import jakarta.persistence.Table;
 @NamedQueries(value = { @NamedQuery(name = "query_get_all_courses", query = "Select c From Course c"),
 		@NamedQuery(name = "query_get_100_Step_courses", query = "Select c From Course c where name like '%100 Steps'") })
 // @Table(name="Course") // 정확하게 테이블을 매핑하는 데 도움을 주는듯
+// 잘 수정되지 않는 데이터(ex.읽기 전용 데이터)는 캐싱을 이용해서 읽어오면 좋음
+// application.properties 설정 때문에 2단계 캐싱 사용 가능
+@Cacheable
 public class Course {
 
 	@Id // primary key

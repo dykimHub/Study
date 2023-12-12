@@ -45,9 +45,16 @@
 			<artifactId>spring-boot-starter-test</artifactId>
 			<scope>test</scope>
 		</dependency>
-		
-		
-		
+		<!-- 캐시 설정; 캐시 오류 나면 얘 버전 때문임 최신으로 바꿔야함-->
+		<dependency>
+		    <groupId>org.hibernate</groupId>
+		    <artifactId>hibernate-jcache</artifactId>
+		    <version>6.4.0.Final</version>
+		</dependency>
+		<dependency>
+		    <groupId>org.ehcache</groupId>
+		    <artifactId>ehcache</artifactId>
+		</dependency>
 	</dependencies>
 
 	<build>
