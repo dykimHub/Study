@@ -16,7 +16,7 @@ files: jpa-hibernate(Passport, Review, Student, StudentRepository, StudentReposi
 
 23/12/09  
 JPA and Hibernate Relationships in depth - Many to One and Many to Many    
-files: jpa-hibernate(Review, Course, Student, CourseRepository, CourseRepositoryTest, StudentRepository, StudentRepositoryTest)
+files: jpa-hibernate(Course, Review, Student, CourseRepository, CourseRepositoryTest, StudentRepository, StudentRepositoryTest)
 
 23/12/10  
 JPA and Hibernate Relationships in depth - Inheritance Mappings  
@@ -31,7 +31,11 @@ files: spring-data-jpa(Course, CourseSpringDataRepository, CourseSpringRepositor
 
 23/12/12  
 Caching - First Level Cache and Second Level Cache with EhCache  
-files: jpa-hibernate(CouresRepositoryTest), spring-data-jpa(application.properties, Course)  
+files: spring-data-jpa(application.properties, Course, CourseSpringRepositoryTest)  
+
+23/12/13  
+Hibernate & JPA Tips - Soft Delete, Embedded, Enumerated  
+files: spring-data-jpa(Course, Student, Address, StudentRepositoryTest), jpa-hibernate(Review, ReviewRating, CourseRepository, data.sql)  
 
 Tuning your JPA application with Hibernate - Solve N+1 Queries Issue.     
  
