@@ -13,10 +13,16 @@ values(20001,'Ranga', 40001),
 (20002, 'Adam', 40002),
 (20003, 'Jane', 40003);
 
+-- insert into review(id, rating, description, course_id)
+-- values(50001, '5', 'Great Course', 10001),
+-- (50002, '4', 'Wonderful Course', 10001),
+-- (50003, '5', 'Awesome Course', 10003);
+
+-- enum 사용 후
 insert into review(id, rating, description, course_id)
-values(50001, '5', 'Great Course', 10001),
-(50002, '4', 'Wonderful Course', 10001),
-(50003, '5', 'Awesome Course', 10003);
+values(50001, 'FIVE', 'Great Course', 10001),
+(50002, 'FOUR', 'Wonderful Course', 10001),
+(50003, 'FIVE', 'Awesome Course', 10003);
 
 insert into student_course(student_id, course_id)
 values(20001,10001),

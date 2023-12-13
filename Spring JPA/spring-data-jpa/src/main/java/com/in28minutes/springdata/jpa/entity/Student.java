@@ -8,6 +8,7 @@ import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import jakarta.persistence.Column;
+import jakarta.persistence.Embedded;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
@@ -30,18 +31,16 @@ public class Student {
 	@Column(nullable = false)
 	private String name;
 
-	// 학생 entity는 여권 entity와 일대일관계
-	// 일대일은 eager fetch default
-	// eagerfetch 즉시로딩; 학생 엔티티 조회 쿼리, 여권 엔티티 조회 커리 같이 날림
-	// lazyfetch 지연로딩; 학생 엔티티 조회 쿼리만 날림
+	// onetoone, manytomany 같은거는 foreign key로 관계를 설정하는 건데 얘는 address class 자체를 붙이는거
+	// create table 할 때 해당 테이블 열에 address 변수도 같이 생김
+	// 명시적으로 관계를 설정하지는 못하지만 성능이 빨라진다는 장점
+	@Embedded
+	private Address address;
+
 	@OneToOne(fetch = FetchType.LAZY)
 	private Passport passport;
 
-	// many to many는 lazy fetch가 default, eager fetch 변환 가능하나 권장X 이유? student, course 전부 retrieve 해서
 	@ManyToMany
-	// owning side에 쓸 수 있음
-	// foreign key (course_id) 형성
-	// 다대다 관계에서는 어떤 테이블에 ~id열을 추가헤도 값이 여러개임. 그래서 따로 entity만들어 줘야함 
 	@JoinTable(name = "STUDENT_COURSE", joinColumns = @JoinColumn(name = "STUDENT_ID"), inverseJoinColumns = @JoinColumn(name = "COURSE_ID"))
 	private List<Course> courses = new ArrayList<>();
 
@@ -51,6 +50,14 @@ public class Student {
 
 	public Student(String name) {
 		this.name = name;
+	}
+
+	public Address getAddress() {
+		return address;
+	}
+
+	public void setAddress(Address address) {
+		this.address = address;
 	}
 
 	public Long getId() {

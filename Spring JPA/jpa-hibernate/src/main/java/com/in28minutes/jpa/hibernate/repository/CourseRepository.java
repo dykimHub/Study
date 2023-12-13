@@ -10,6 +10,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.in28minutes.jpa.hibernate.entity.Course;
 import com.in28minutes.jpa.hibernate.entity.Review;
+import com.in28minutes.jpa.hibernate.entity.ReviewRating;
 
 import jakarta.persistence.EntityManager;
 
@@ -79,9 +80,12 @@ public class CourseRepository {
 		logger.info("course.getReviews() -> {}", course.getReviews());
 
 		// add 2 reviews to it
-		Review review1 = new Review("5", "Great Hands-on Stuff");
-		Review review2 = new Review("5", "Hatsoff.");
-		
+//		Review review1 = new Review("5", "Great Hands-on Stuff");
+//		Review review2 = new Review("5", "Hatsoff.");
+
+		Review review1 = new Review(ReviewRating.FIVE, "Great Hands-on Stuff");
+		Review review2 = new Review(ReviewRating.FIVE, "Hatsoff.");
+
 		// setting the relationship
 		course.addReview(review1);
 		review1.setCourse(course);

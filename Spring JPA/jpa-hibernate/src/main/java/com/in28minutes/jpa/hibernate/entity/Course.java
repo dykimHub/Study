@@ -24,7 +24,6 @@ import jakarta.persistence.Table;
 @NamedQueries(value = { @NamedQuery(name = "query_get_all_courses", query = "Select c From Course c"),
 		@NamedQuery(name = "query_get_100_Step_courses", query = "Select c From Course c where name like '%100 Steps'") })
 // @Table(name="Course") // 정확하게 테이블을 매핑하는 데 도움을 주는듯
-@Cacheable
 public class Course {
 
 	@Id // primary key
@@ -93,7 +92,8 @@ public class Course {
 	public void addStudent(Student student) {
 		this.students.add(student);
 	}
-
+	
+	// toString에 review를 출력하라고 하면 review 테이블 불러오는데 시간 걸리니까 주의
 	@Override
 	public String toString() {
 		return String.format("Course[%s]", name);

@@ -1,12 +1,12 @@
-insert into course(id, name, created_date, last_updated_date)
-values(10001, 'JPA in 50 Steps', CURRENT_DATE(), CURRENT_DATE()),
-(10002, 'Spring in 50 Steps', CURRENT_DATE(), CURRENT_DATE()),
-(10003, 'Spring Boot in 100 Steps', CURRENT_DATE(), CURRENT_DATE()),
-(10004, 'Dummy1', CURRENT_DATE(), CURRENT_DATE()),
-(10005, 'Dummy2', CURRENT_DATE(), CURRENT_DATE()),
-(10006, 'Dummy3', CURRENT_DATE(), CURRENT_DATE()),
-(10007, 'Dummy4', CURRENT_DATE(), CURRENT_DATE()),
-(10008, 'Dummy5', CURRENT_DATE(), CURRENT_DATE());
+insert into course(id, name, created_date, last_updated_date, is_deleted)
+values(10001, 'JPA in 50 Steps', CURRENT_DATE(), CURRENT_DATE(), false),
+(10002, 'Spring in 50 Steps', CURRENT_DATE(), CURRENT_DATE(), false),
+(10003, 'Spring Boot in 100 Steps', CURRENT_DATE(), CURRENT_DATE(), false),
+(10004, 'Dummy1', CURRENT_DATE(), CURRENT_DATE(), false),
+(10005, 'Dummy2', CURRENT_DATE(), CURRENT_DATE(), false),
+(10006, 'Dummy3', CURRENT_DATE(), CURRENT_DATE(), false),
+(10007, 'Dummy4', CURRENT_DATE(), CURRENT_DATE(), false),
+(10008, 'Dummy5', CURRENT_DATE(), CURRENT_DATE(), false);
 
 insert into passport(id, number)
 values(40001, 'E123456'),

@@ -7,6 +7,8 @@ import org.hibernate.annotations.UpdateTimestamp;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
 import jakarta.persistence.ManyToOne;
@@ -19,7 +21,11 @@ public class Review {
 	@GeneratedValue
 	private Long id;
 
-	private String rating;
+	// private String rating;
+	// 열거형 집합을 enum을 사용해서 정의하는데 enumtype default인 ordinal은 위치를 기반으로 순위를 매김
+	// 그러니까 enum에 two, one, three 이렇게 적어도 two가 가장 작은 값(1)이 됨 그래서 string기반으로 바꿔줘야 함
+	@Enumerated(EnumType.STRING)
+	private ReviewRating rating;
 
 	private String description;
 
@@ -35,17 +41,17 @@ public class Review {
 
 	}
 
-	public Review(String rating, String description) {
+	public Review(ReviewRating rating, String description) {
 		super();
 		this.rating = rating;
 		this.description = description;
 	}
 
-	public String getRating() {
+	public ReviewRating getRating() {
 		return rating;
 	}
 
-	public void setRating(String rating) {
+	public void setRating(ReviewRating rating) {
 		this.rating = rating;
 	}
 
