@@ -37,6 +37,7 @@ files: spring-data-jpa(application.properties, Course, CourseSpringRepositoryTes
 Hibernate & JPA Tips - Soft Delete, Embedded, Enumerated  
 files: spring-data-jpa(Course, Student, Address, StudentRepositoryTest), jpa-hibernate(Review, ReviewRating, CourseRepository, data.sql)  
 
-Tuning your JPA application with Hibernate - Solve N+1 Queries Issue.     
- 
+23/12/14  
+Tuning your JPA application with Hibernate - Solve N+1 Queries Issue       
+files: spring-data-jpa(Course, PerformanceTuningTest)  
     
