@@ -52,6 +52,9 @@ class CourseSpringDataRepositoryTest {
 	@Test
 	@Transactional
 	public void findById_firstLevelCacheDemo() {
+		// first cache clear, second 영향X
+		// 캐시 저장 용량이 커지면 그 또한 성능 저하의 원인이 될 수 있음
+		// em.clear();
 
 		Optional<Course> courseOptional1 = repository.findById(10001L);
 		Course course1 = courseOptional1.get();

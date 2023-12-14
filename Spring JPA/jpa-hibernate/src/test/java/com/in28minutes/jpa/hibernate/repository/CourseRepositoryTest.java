@@ -18,8 +18,11 @@ import com.in28minutes.jpa.hibernate.entity.Review;
 
 import jakarta.persistence.EntityManager;
 
-//junittest == 단위테스트
-//junittest 때문에 test에 application 또 만든듯?
+// junittest == 단위테스트
+// junittest 때문에 test에 application 또 만든듯?
+// 단위테스트는 h2-console(in-memory database) 사용하면 좋다
+// 단위테스트에서만 사용하는 데이터는 data.sql이라는 이름으로 src/test/java/resources에 옮기면 됨
+// assertequals 등은 단위테스트에서만 사용
 @SpringBootTest(classes = JpaHibernateApplication.class)
 class CourseRepositoryTest {
 
@@ -51,6 +54,7 @@ class CourseRepositoryTest {
 	// dirties context는 애플리케이션 컨텍스트 공유를 허용하지 않는 어노테이션
 	// 나만의 실험을 하는 넉낌. 내 실험용 메서드임 그니까 데이터는 원래 상태로 보존되어야 하는 것
 	// 만약에 다른 개발자가 select all 해보면 update 전 데이터로 출력-> 데이터 영속성? 유지
+	// 트랜잭션이랑 다른 점은 트랜잭션은 오류가 나면 롤백이고 안나면 commit하는데 얘는 오류 안나도 롤백하는 느낌
 	@DirtiesContext
 	public void save_basic() {
 		// get a course

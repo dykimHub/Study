@@ -26,10 +26,13 @@ import jakarta.persistence.OneToMany;
 import jakarta.persistence.PreRemove;
 import jakarta.persistence.Table;
 
+//n+1 문제 해결하기 위해 join fetch 사용
+		// student가 있으면 inner join, 없으면 left join
+		// 일반적인 join은 관계 엔티티가 있으면 그 엔티티를 조회하는 쿼리를 한번 더 날리는데 join fetch는 애초에 조인해서 같이 가져옴
+		// eager fetch랑 비슷한데 eager fetch는 성능 저하 문제가 커져서..
 @Entity
 @NamedQueries(value = { @NamedQuery(name = "query_get_all_courses", query = "Select c From Course c"),
-		@NamedQuery(name = "query_get_100_Step_courses", query = "Select c From Course c where name like '%100 Steps'") })
-// @Table(name="Course") // 정확하게 테이블을 매핑하는 데 도움을 주는듯
+		@NamedQuery(name = "query_get_all_courses_join_fetch", query = "Select  c  From Course c JOIN FETCH c.students s") })
 // 잘 수정되지 않는 데이터(ex.읽기 전용 데이터)는 캐싱을 이용해서 읽어오면 좋음
 // application.properties에서 2단계 설정하고 어떤 엔티티에 적용하는 건지 알려야 함
 @Cacheable
