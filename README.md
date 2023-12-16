@@ -47,6 +47,6 @@ files: spring-data-jpa(Course, PerformanceTuningTest)
 23/12/16  
 Spring Starter Project 생성: Spring Web, Spring Data JPA, MySQL Driver, H2 Database 추가  
 src/main/resources: application.properties-> MySQL dataSource 설정  
-src/test/resources 생성: application-test.properties 생성-> H2 dataSource 설정, data.sql 생성
+src/test/resources 폴더(소스폴더X) 생성: application-test.properties 생성-> H2 dataSource 설정, data.sql 생성
 
     
