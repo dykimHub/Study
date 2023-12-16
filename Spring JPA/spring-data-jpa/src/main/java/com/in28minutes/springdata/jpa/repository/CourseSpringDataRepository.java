@@ -10,6 +10,7 @@ import com.in28minutes.springdata.jpa.entity.Course;
 
 //인터페이스로 정의하기
 @RepositoryRestResource(path = "courses") // 간단하게 rest 해주는데(ex. detail 링크 알아서 만듦) 권장은 안함
+// jparepository에서 상속받아서 쉽게 로직을 짤 수 있음 <entitiy 클래스, 해당 entitiy클래스의 기본키>
 public interface CourseSpringDataRepository extends JpaRepository<Course, Long> {
 
 	// 여기서 부터는 커스텀 함수, 인터페이스라 정의만
