@@ -42,8 +42,9 @@ Tuning your JPA application with Hibernate - Solve N+1 Queries Issue
 files: spring-data-jpa(Course, PerformanceTuningTest)  
 
 ### Practice Project: Building REST API with Spring Boot and JPA
+### Title: spring-jpa-user
 
-23/12/16
+23/12/16  
 Spring Starter Project 생성: Spring Web, Spring Data JPA, MySQL Driver, H2 Database 추가  
 src/main/resources: application.properties-> MySQL dataSource 설정  
 src/test/resources 생성: application-test.properties 생성-> H2 dataSource 설정, data.sql 생성
