@@ -46,7 +46,7 @@ public class User {
 	@Column(nullable = false)
 	private LocalDate birthDate;
 	
-	// 모든 필드가 있을 때만 builder로 생성 가능하게끔?? 생성자에 붙였음 클래스도 가능
+	// 모든 필드가 있을 때만 builder로 생성 가능하게끔?? 생성자에 붙였음 클래스에 붙이는 것도 가능
 	@Builder 
 	public User(int id, String password, String name, LocalDate birthDate) {
 		super();
