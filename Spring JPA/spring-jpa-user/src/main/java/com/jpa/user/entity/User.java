@@ -4,6 +4,7 @@ import java.time.LocalDate;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
+import jakarta.persistence.Cacheable;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -28,6 +29,7 @@ import lombok.Setter;
 @NoArgsConstructor(access = AccessLevel.PROTECTED) // 기본 생성자를 protected로 생성
 // @AllArgsConstructor // 모든 필드를 파라미터를 받는 생성자; 모든 클래스를 외부로 노출하므로 위험
 @Entity
+@Cacheable
 public class User {
 
 	@Id // primary key
@@ -40,7 +42,7 @@ public class User {
 	private String password;
 
 	// @NonNull
-	@Column(nullable = false, unique = true)
+	@Column(nullable = false)//, unique = true
 	private String name;
 
 	@Column(nullable = false)
