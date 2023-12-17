@@ -50,7 +50,7 @@ pom.xml: openapi, dbcp2 등 추가
 src/main/resources: application.properties-> MySQL dataSource 설정  
 src/test/resources 폴더(소스폴더X) 생성: application-test.properties 생성-> H2 dataSource 설정, data.sql 생성  
 entity, dto, controller, service, repository 생성  
-getuser, postuser, getuserbyid openapi 테스트
+getUserList, registUser, getUserbyId 메서드 openapi 테스트
 
 
     
