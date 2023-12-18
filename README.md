@@ -34,8 +34,8 @@ Caching - First Level Cache and Second Level Cache with EhCache
 files: spring-data-jpa(application.properties, Course, CourseSpringRepositoryTest)  
 
 23/12/13  
-Hibernate & JPA Tips - Soft Delete, Embedded, Enumerated  
-files: spring-data-jpa(Course, Student, Address, StudentRepositoryTest), jpa-hibernate(Review, ReviewRating, CourseRepository, data.sql)  
+Hibernate & JPA Tips - Soft Delete, Embedded, Enumerated, Paging  
+files: spring-data-jpa(Course, Student, Address, StudentRepositoryTest, CourseSpringDataRepositoryTest), jpa-hibernate(Review, ReviewRating, CourseRepository, data.sql)  
 
 23/12/14  
 Tuning your JPA application with Hibernate - Solve N+1 Queries Issue       
