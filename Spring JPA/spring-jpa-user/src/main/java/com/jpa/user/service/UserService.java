@@ -9,8 +9,12 @@ public interface UserService {
 
 	List<User> getUserList();
 
-	int registUser(UserDto userDto);
+	Long registUser(UserDto userDto);
 
-	User getUserById(int id);
+	Long updateUser(Long id, UserDto userDto);
+
+	boolean deleteUser(Long id);
+
+	User getUserByName(String name);
 
 }
