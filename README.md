@@ -3,8 +3,11 @@
 https://www.udemy.com/course/hibernate-jpa-tutorial-for-beginners-in-100-steps/
 
 23/12/06  
-JPA and Hibernate - Entities, Annotations, JUnit  
-files: database-demo, junit-in-5-steps  
+JPA and Hibernate - Entities, Annotations   
+files: database-demo
+
+JUnit - Assertion Functions, LifeCycle  
+files: junit-in-5-steps
 
 23/12/07  
 Approach to querying data using JPA and Hibernate - JPQL, Native Queries  
@@ -44,13 +47,26 @@ files: spring-data-jpa(Course, PerformanceTuningTest)
 ### Practice Project: Building REST API with Spring Boot and JPA
 ### Title: spring-jpa-user
 
-23/12/16  
-Spring Starter Project 생성: Spring Web, Spring Data JPA, MySQL Driver, H2 Database, Lombok, Spring Boot DevTools 추가  
-pom.xml: openapi, dbcp2 등 추가  
+23/12/16 - 초기 설정
+Spring Starter Project 생성: Spring Web, Spring Data JPA, MySQL Driver, Spring Data JDBC, H2 Database, Lombok, Spring Boot DevTools 추가  
+pom.xml: openapi, jackson-core, commons-dbcp2, commons-fileupload, aspectjweaver, aspectjrt 추가 
 src/main/resources: application.properties-> MySQL dataSource 설정  
-src/test/resources 폴더(소스폴더X) 생성: application-test.properties 생성-> H2 dataSource 설정, data.sql 생성  
-entity, dto, controller, service, repository 생성  
-getUserList, registUser, getUserbyId 메서드 openapi 테스트
+src/test/resources 폴더(소스폴더X) 생성: application-test.properties 생성-> H2 dataSource 설정 
+entity, dto, controller, service, repository 생성
+getUserList, registUser, getUserbyName, deleteUser 메서드 openapi 테스트
+
+23/12/17 - QueryDSL  
+pom.xml: querydsl-jpa, querydsl-apt 추가  
+config > QueryDslConfig 생성  
+repository > user > UserRepositoryCustom, UserRepositoryCustomImpl(QueryDslConfig 의존성 주입)  
+repository > user > UserRepository에 UserRepositoryCustom 상속 추가  
+updateUser 메서드 테스트  
+
+23/12/18 - 인라인 DB로 단위테스트  
+src/test/java: repository > UserRepositoryTest 생성(properties profile 설정)   
+src/test/resources: data.sql(초기 데이터 생성)  
+saveUser 메서드 Persistent Context 테스트    
+
 
 
     
