@@ -42,6 +42,7 @@ public class Student {
 	// owning side에 쓸 수 있음
 	// foreign key (course_id) 형성
 	// 다대다 관계에서는 어떤 테이블에 ~id열을 추가헤도 값이 여러개임. 그래서 따로 entity만들어 줘야함 
+	// joincolumns는 현재 엔티티의 외래키를 지정, inversejoincolumns는 연결된 엔티티의 외래키 지정
 	@JoinTable(name = "STUDENT_COURSE", joinColumns = @JoinColumn(name = "STUDENT_ID"), inverseJoinColumns = @JoinColumn(name = "COURSE_ID"))
 	private List<Course> courses = new ArrayList<>();
 

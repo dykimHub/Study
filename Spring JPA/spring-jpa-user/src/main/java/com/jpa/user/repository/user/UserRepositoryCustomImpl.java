@@ -9,6 +9,7 @@ import com.querydsl.jpa.impl.JPAQueryFactory;
 public class UserRepositoryCustomImpl implements UserRepositoryCustom {
 
 	// querydlsconfig 의존성 주입
+	// 이미 빈으로 등록되어 있어서 autowired 안해도 됨
 	private final JPAQueryFactory queryFactory;
 
 	// 생성자
@@ -24,9 +25,6 @@ public class UserRepositoryCustomImpl implements UserRepositoryCustom {
 	// ***query dsl 기본 문법***
 	// select: selectFrom -> where eq.and(or) 복수조건
 	// 테이블 2개 이상: query.from(qentity1, qentity2)
-	// join: select cat from Cat as cat
-	//       left(right, inner) join cat.kittens as kitten
-	//       on kitten.bodyWeight > 10.0
 	// order by: selectFrom -> orderBy(customer.lastName.asc()) -> fetch()
 	// subquery: QDepartment department = QDepartment.department;
 	// QDepartment d = new QDepartment("d");

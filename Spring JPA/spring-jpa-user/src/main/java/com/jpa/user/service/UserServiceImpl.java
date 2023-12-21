@@ -1,11 +1,15 @@
 package com.jpa.user.service;
 
 import java.util.List;
+import java.util.Optional;
 
+import org.springframework.data.crossstore.ChangeSetPersister.NotFoundException;
 import org.springframework.stereotype.Service;
 
 import com.jpa.user.dto.UserDto;
+import com.jpa.user.entity.Product;
 import com.jpa.user.entity.User;
+import com.jpa.user.repository.product.ProductRepository;
 import com.jpa.user.repository.user.UserRepository;
 import com.jpa.user.repository.user.UserRepositoryCustom;
 
@@ -17,6 +21,7 @@ import lombok.RequiredArgsConstructor;
 public class UserServiceImpl implements UserService {
 
 	private final UserRepository userRepository;
+	private final ProductRepository productRepository;
 
 	public List<User> getUserList() {
 		return userRepository.findAll();
@@ -43,15 +48,15 @@ public class UserServiceImpl implements UserService {
 		return savedUser.getId();
 
 	}
-	
-	public Long updateUser(Long id, UserDto userDto) {
-		
+
+	public Long updateUser(Long id, UserDto userDto) throws NotFoundException {
+
 		// 반환값이 Optional<User> 이거라서 user 있으면 반환하고, 없으면 null 반환하게끔
-		User user = userRepository.findById(id).orElse(null);
-		
-		if(user == null)
-			return 0L;
-		
+		Optional<User> user = userRepository.findById(id);
+
+		if (user.isEmpty())
+			throw new NotFoundException();
+
 		User updatedUser = User.builder()
 				.password(userDto.getPassword())
 				.name(userDto.getName())
@@ -62,20 +67,34 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public boolean deleteUser(Long id) {
-		
-		User user = userRepository.findById(id).orElse(null);
-		
-		if (user == null)
-			return false;
+	public void deleteUser(Long id) throws NotFoundException {
+		Optional<User> user = userRepository.findById(id);
+
+		if (user.isEmpty())
+			throw new NotFoundException();
 
 		userRepository.deleteById(id);
 
-		return true;
 	}
 
 	@Override
 	public User getUserByName(String name) {
 		return userRepository.findByName(name);
+	}
+
+	@Override
+	public Long buyProduct(Long userId, Long productId) throws NotFoundException {
+
+		User user = userRepository.findById(userId).orElse(null);
+		Product product = productRepository.findById(productId).orElse(null);
+
+		if (user == null || product == null)
+			throw new NotFoundException();
+
+		user.getProducts().add(product);
+		User buyProduct = userRepository.save(user);
+
+		return buyProduct.getId();
+
 	}
 }

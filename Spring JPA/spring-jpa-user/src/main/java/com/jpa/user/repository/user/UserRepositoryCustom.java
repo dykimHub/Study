@@ -6,8 +6,4 @@ public interface UserRepositoryCustom {
 
 	Long updateUser(Long id, User user);
 
-	
-	
-	
-
 }

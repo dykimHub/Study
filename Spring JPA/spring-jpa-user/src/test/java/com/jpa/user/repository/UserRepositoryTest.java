@@ -3,11 +3,9 @@ package com.jpa.user.repository;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.Optional;
 
-import org.h2.tools.Server;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.MethodOrderer;
 import org.junit.jupiter.api.Order;
@@ -16,7 +14,6 @@ import org.junit.jupiter.api.TestMethodOrder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.TestPropertySource;
@@ -44,6 +41,9 @@ public class UserRepositoryTest {
 		
 		Optional<User> userOptional = userRepository.findById(1L);
 		assertTrue(userOptional.isPresent());
+		
+		// 캐시에서 가져옴
+		User user2 = userRepository.findByName("kimdayun");
 	}
 
 	@Test
@@ -59,6 +59,7 @@ public class UserRepositoryTest {
 		userRepository.save(user);
 
 		// 영속성 컨텍스트 때문에 변경 감지 가능
+		
 		user.setName("heunngminson");
 		userRepository.save(user);
 

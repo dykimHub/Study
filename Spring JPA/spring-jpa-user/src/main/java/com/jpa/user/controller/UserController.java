@@ -2,6 +2,7 @@ package com.jpa.user.controller;
 
 import java.util.List;
 
+import org.springframework.data.crossstore.ChangeSetPersister.NotFoundException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -51,7 +52,6 @@ public class UserController {
 		} catch (Exception e) {
 			String errorMessage = e.getMessage();
 			return new ResponseEntity<String>(errorMessage, HttpStatus.INTERNAL_SERVER_ERROR);
-
 		}
 
 	}
@@ -64,10 +64,12 @@ public class UserController {
 			Long result = userService.updateUser(id, userDto);
 			return new ResponseEntity<Long>(result, HttpStatus.OK);
 
+		} catch (NotFoundException e) {
+			return new ResponseEntity<Void>(HttpStatus.NO_CONTENT);
+
 		} catch (Exception e) {
 			String errorMessage = e.getMessage();
 			return new ResponseEntity<String>(errorMessage, HttpStatus.INTERNAL_SERVER_ERROR);
-
 		}
 
 	}
@@ -75,16 +77,21 @@ public class UserController {
 	@DeleteMapping("/delete/{id}")
 	@Operation(summary = "회원 삭제")
 	public ResponseEntity<?> deleteUser(@PathVariable Long id) {
-		
-		boolean result = userService.deleteUser(id);
 
-		if (!result)
-			return new ResponseEntity<Boolean>(result, HttpStatus.NO_CONTENT);
+		try {
+			userService.deleteUser(id);
+			return new ResponseEntity<Void>(HttpStatus.OK);
 
-		return new ResponseEntity<Boolean>(result, HttpStatus.OK);
+		} catch (NotFoundException e) {
+			return new ResponseEntity<Void>(HttpStatus.NO_CONTENT);
+
+		} catch (Exception e) {
+			String errorMessage = e.getMessage();
+			return new ResponseEntity<String>(errorMessage, HttpStatus.INTERNAL_SERVER_ERROR);
+		}
 
 	}
-	
+
 	@GetMapping("/user/{name}")
 	@Operation(summary = "회원 찾기(이름)")
 	public ResponseEntity<?> getUserByName(@PathVariable String name) {
@@ -94,6 +101,24 @@ public class UserController {
 			return new ResponseEntity<Void>(HttpStatus.NO_CONTENT);
 
 		return new ResponseEntity<User>(user, HttpStatus.OK);
+
+	}
+
+	@PostMapping("/buy/{userId}/{productId}")
+	@Operation(summary = "상품 구매")
+	public ResponseEntity<?> buyProduct(@PathVariable Long userId, @PathVariable Long productId) {
+
+		try {
+			Long result = userService.buyProduct(userId, productId);
+			return new ResponseEntity<Long>(result, HttpStatus.CREATED);
+
+		} catch (NotFoundException e) {
+			return new ResponseEntity<Void>(HttpStatus.NO_CONTENT);
+
+		} catch (Exception e) {
+			String errorMessage = e.getMessage();
+			return new ResponseEntity<String>(errorMessage, HttpStatus.INTERNAL_SERVER_ERROR);
+		}
 
 	}
 
