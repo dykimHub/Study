@@ -68,7 +68,7 @@ src/test/java: repository > UserRepositoryTest 생성(properties profile 설정)
 src/test/resources: data.sql(초기 데이터 생성)  
 saveUser 메서드 Persistent Context 테스트    
 
-23/12/19 - Cache
+23/12/19 - Cache  
 pom.xml: ehcache, hibernate-jcache 추가  
 application-test.properties: second-level cache, log-level 설정  
 entity에 @Cacheable 추가  
