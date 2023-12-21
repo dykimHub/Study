@@ -57,7 +57,8 @@ getUserList, registUser, getUserbyName, deleteUser 메서드 openapi 테스트
 
 23/12/17 - QueryDSL  
 pom.xml: querydsl-jpa, querydsl-apt 추가  
-config > QueryDslConfig 생성  
+config > QueryDslConfig 생성
+target/generated-sources/annotations 소스 폴더로 변경
 repository > user > UserRepositoryCustom, UserRepositoryCustomImpl(QueryDslConfig 의존성 주입)  
 repository > user > UserRepository에 UserRepositoryCustom 상속 추가  
 updateUser 메서드 테스트  
