@@ -18,16 +18,15 @@ public class UserRepositoryCustomImpl implements UserRepositoryCustom {
 
 	// QClass 못받아오면 run as -> maven install 실행시키고 성공하면
 	// target-> generated-sources-> annotations 밑에 QClass 있을 건데
-	// build path -> source -> add Folder에서 target-> generated-sources-> annotations
-	// 클릭
+	// build path -> source -> add Folder에서 target-> generated-sources-> annotations 클릭
 	// generated-test-sources -> annotations도 클릭하고 add 눌러눌러
 
 	// ***query dsl 기본 문법***
 	// select: selectFrom -> where eq.and(or) 복수조건
 	// 테이블 2개 이상: query.from(qentity1, qentity2)
 	// join: select cat from Cat as cat
-	// left(right, inner) join cat.kittens as kitten
-	// on kitten.bodyWeight > 10.0
+	//       left(right, inner) join cat.kittens as kitten
+	//       on kitten.bodyWeight > 10.0
 	// order by: selectFrom -> orderBy(customer.lastName.asc()) -> fetch()
 	// subquery: QDepartment department = QDepartment.department;
 	// QDepartment d = new QDepartment("d");

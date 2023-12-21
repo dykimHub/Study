@@ -18,7 +18,6 @@ import com.in28minutes.springdata.jpa.entity.Student;
 
 import jakarta.persistence.EntityManager;
 
-//junittest 때문에 test에 application 또 만든듯?
 @SpringBootTest(classes = SpringDataJpaApplication.class)
 class StudentRepositoryTest {
 

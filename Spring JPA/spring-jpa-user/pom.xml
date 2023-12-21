@@ -25,11 +25,16 @@
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-web</artifactId>
 		</dependency>
-
+		<!-- h2 scope runtime vs test -->
 		<dependency>
 			<groupId>com.h2database</groupId>
 			<artifactId>h2</artifactId>
-			<scope>runtime</scope>
+			<scope>test</scope>
+		</dependency>
+		<!-- https://mvnrepository.com/artifact/org.springframework/spring-jdbc -->
+		<dependency>
+		    <groupId>org.springframework</groupId>
+		    <artifactId>spring-jdbc</artifactId>
 		</dependency>
 		<dependency>
 			<groupId>com.mysql</groupId>
@@ -65,11 +70,6 @@
 		    <artifactId>querydsl-apt</artifactId>
 		    <version>5.0.0</version>
 		    <classifier>jakarta</classifier>
-		</dependency>
-		<dependency>
-		    <groupId>com.querydsl</groupId>
-		    <artifactId>querydsl-core</artifactId>
-		    <version>5.0.0</version>
 		</dependency>
 		<!--springboot3에서 swagger2 지원 안 함--> 
 		<!-- https://mvnrepository.com/artifact/io.springfox/springfox-swagger2 -->

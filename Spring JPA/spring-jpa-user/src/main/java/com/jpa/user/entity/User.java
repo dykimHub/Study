@@ -10,6 +10,7 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.Table;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -28,6 +29,7 @@ import lombok.Setter;
 // @Setter
 @NoArgsConstructor(access = AccessLevel.PROTECTED) // 기본 생성자를 protected로 생성
 // @AllArgsConstructor // 모든 필드를 파라미터를 받는 생성자; 모든 클래스를 외부로 노출하므로 위험
+@Table(name = "USERS") // user로 하면 h2에 있는 user 명령어? 때문에 충돌해가지고 테이블이름 users로 설정
 @Entity
 public class User {
 

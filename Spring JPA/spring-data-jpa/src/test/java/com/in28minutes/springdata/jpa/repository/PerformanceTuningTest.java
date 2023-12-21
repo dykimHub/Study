@@ -15,7 +15,6 @@ import jakarta.persistence.EntityGraph;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.Subgraph;
 
-//junittest 때문에 test에 application 또 만든듯?
 @SpringBootTest(classes = SpringDataJpaApplication.class)
 class PerformanceTuningTest {
 
