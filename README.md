@@ -34,7 +34,7 @@ files: spring-data-jpa(Course, CourseSpringDataRepository, CourseSpringRepositor
 
 23/12/12  
 Caching - First Level Cache and Second Level Cache with EhCache  
-files: spring-data-jpa(application.properties, Course, CourseSpringRepositoryTest)  
+files: spring-data-jpa(application.properties, Course, CourseSpringDataRepositoryTest)  
 
 23/12/13  
 Hibernate & JPA Tips - Soft Delete, Embedded, Enumerated, Paging  
@@ -67,6 +67,10 @@ src/test/java: repository > UserRepositoryTest 생성(properties profile 설정)
 src/test/resources: data.sql(초기 데이터 생성)  
 saveUser 메서드 Persistent Context 테스트    
 
-
+23/12/19 - Cache
+pom.xml: ehcache, hibernate-jcache 추가  
+application-test.properties: second-level cache, log-level 설정  
+entity에 @Cacheable 추가  
+findById 메서드 테스트  
 
     
