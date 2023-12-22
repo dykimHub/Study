@@ -51,14 +51,13 @@ files: spring-data-jpa(Course, PerformanceTuningTest)
 Spring Starter Project 생성: Spring Web, Spring Data JPA, MySQL Driver, Spring Data JDBC, H2 Database, Lombok, Spring Boot DevTools 추가  
 pom.xml: openapi, jackson-core, commons-dbcp2, commons-fileupload, aspectjweaver, aspectjrt 추가 
 src/main/resources: application.properties-> MySQL dataSource 설정  
-src/test/resources 폴더(소스폴더X) 생성: application-test.properties 생성-> H2 dataSource 설정 
-entity, dto, controller, service, repository 생성
+src/test/resources 폴더(소스폴더X) 생성: application-test.properties 생성-> H2 dataSource 설정  
 getUserList, registUser, getUserbyName, deleteUser 메서드 openapi 테스트
 
 23/12/17 - QueryDSL  
 pom.xml: querydsl-jpa, querydsl-apt 추가  
 config > QueryDslConfig 생성
-target/generated-sources/annotations 소스 폴더로 변경  
+target/generated-sources/annotations 소스 폴더로 변경 -> QClass 추가 확인   
 repository > user > UserRepositoryCustom, UserRepositoryCustomImpl(QueryDslConfig 의존성 주입)  
 repository > user > UserRepository에 UserRepositoryCustom 상속 추가  
 updateUser 메서드 테스트  
@@ -72,6 +71,13 @@ saveUser 메서드 Persistent Context 테스트
 pom.xml: ehcache, hibernate-jcache 추가  
 application-test.properties: second-level cache, log-level 설정  
 entity에 @Cacheable 추가  
-findById 메서드 테스트  
+findById 메서드 테스트
 
+23/12/20 - Join  
+User, Product @ManyToMany, @JoinTable 형성  
+getProductList, registProduct, deleteProduct, updateProduct, getProductByName 테스트  
+buyProduct 테스트; user의 products 변수에 product 추가  
+
+23/12/21 - 순환 참조  
+UserDto, ProductDto 추가  
     
