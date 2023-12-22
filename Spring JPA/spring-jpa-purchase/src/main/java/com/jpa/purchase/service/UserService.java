@@ -22,4 +22,6 @@ public interface UserService {
 
 	Long buyProduct(Long userId, Long productId) throws NotFoundException;
 
+	List<Product> getProductByUser(Long id) throws NotFoundException;
+
 }

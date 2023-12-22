@@ -2,6 +2,7 @@ package com.jpa.purchase.controller;
 
 import java.util.List;
 
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.crossstore.ChangeSetPersister.NotFoundException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -9,11 +10,13 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.jpa.purchase.dto.UserDto;
+import com.jpa.purchase.entity.Product;
 import com.jpa.purchase.entity.User;
 import com.jpa.purchase.service.UserService;
 
@@ -49,6 +52,10 @@ public class UserController {
 			Long result = userService.registUser(userDto);
 			return new ResponseEntity<Long>(result, HttpStatus.CREATED);
 
+		} catch (DataIntegrityViolationException e) {
+			String errMsg = e.getMessage();
+			return new ResponseEntity<String>(errMsg, HttpStatus.INTERNAL_SERVER_ERROR);
+
 		} catch (Exception e) {
 			String errorMessage = e.getMessage();
 			return new ResponseEntity<String>(errorMessage, HttpStatus.INTERNAL_SERVER_ERROR);
@@ -56,7 +63,7 @@ public class UserController {
 
 	}
 
-	@PostMapping("/user/update/{id}")
+	@PutMapping("/user/update/{id}")
 	@Operation(summary = "회원 수정")
 	public ResponseEntity<?> updateUser(@RequestBody UserDto userDto, @PathVariable Long id) {
 
@@ -74,7 +81,7 @@ public class UserController {
 
 	}
 
-	@DeleteMapping("/delete/{id}")
+	@DeleteMapping("/user/delete/{id}")
 	@Operation(summary = "회원 삭제")
 	public ResponseEntity<?> deleteUser(@PathVariable Long id) {
 
@@ -118,6 +125,29 @@ public class UserController {
 		} catch (Exception e) {
 			String errorMessage = e.getMessage();
 			return new ResponseEntity<String>(errorMessage, HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+
+	}
+
+	@GetMapping("/myproducts/{id}")
+	@Operation(summary = "회원이 산 물건")
+	public ResponseEntity<?> getProductByUser(@PathVariable Long id) {
+
+		try {
+			List<Product> products = userService.getProductByUser(id);
+
+			if (products == null || products.size() == 0)
+				return new ResponseEntity<Void>(HttpStatus.NO_CONTENT);
+
+			return new ResponseEntity<List<Product>>(products, HttpStatus.OK);
+
+		} catch (NotFoundException e) {
+			return new ResponseEntity<Void>(HttpStatus.NO_CONTENT);
+
+		} catch (Exception e) {
+			String errorMessage = e.getMessage();
+			return new ResponseEntity<String>(errorMessage, HttpStatus.INTERNAL_SERVER_ERROR);
+			
 		}
 
 	}

@@ -5,5 +5,5 @@
 --     `birth_date` DATE
 -- );
 
-insert into `user` (password, name, birth_date) 
-values('1234', 'kimdayun', '1998-10-09');
+-- insert into `user` (password, name, birth_date) 
+-- values('1234', 'kimdayun', '1998-10-09');

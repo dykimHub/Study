@@ -50,7 +50,7 @@ public class User {
 
 	// @NonNull
 	// unique 설정걸기 전에 테이블에 중복된 값 있으면 작동 안 함
-	@Column(name = "name", nullable = false, unique = true)
+	@Column(name = "name", nullable = false)
 	private String name;
 
 	@Column(name = "birth_date", nullable = false)

@@ -3,6 +3,7 @@ package com.jpa.purchase.service;
 import java.util.List;
 import java.util.Optional;
 
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.crossstore.ChangeSetPersister.NotFoundException;
 import org.springframework.stereotype.Service;
 
@@ -35,6 +36,9 @@ public class UserServiceImpl implements UserService {
 		// 전체 필드를 가지고 있는 생성자에만 builder를 붙였기 때문에
 		// 필드 하나라도 누락되면 데이터 전송이 안됨
 		// id는 generatedvalue라 ㄱㅊㄱㅊ
+		
+		if(getUserByName(userDto.getName()) != null)
+			throw new DataIntegrityViolationException("Duplicate Name");
 
 		User user = User.builder()
 				.password(userDto.getPassword())
@@ -97,4 +101,12 @@ public class UserServiceImpl implements UserService {
 		return buyProduct.getId();
 
 	}
+
+	@Override
+	public List<Product> getProductByUser(Long id) throws NotFoundException {
+		return userRepository.findById(id)
+		        .orElseThrow(() -> new NotFoundException())
+		        .getProducts();
+	}
+
 }

@@ -44,7 +44,7 @@ public class UserRepositoryCustomImpl implements UserRepositoryCustom {
 				.set(quser.name, updatedUser.getName())
 				.set(quser.birthDate, updatedUser.getBirthDate()))
 				.execute(); // 영향받은 행 개수 반환
-			//	.fetch(); //  영향받은 행 값을 반환
+		
 	}			
 
 }
