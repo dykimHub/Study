@@ -30,7 +30,7 @@ public class ProductServiceImpl implements ProductService {
 
 	@Override
 	public List<User> findProductByUser(Long productId) {
-		return productRepository.findProductByUser(productId);
+		return productRepository.findById(productId).orElse(null).getUsers();
 	}
 
 	@Override

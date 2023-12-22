@@ -42,7 +42,7 @@ public class Product {
 	private BigDecimal price;
 	
 	@ManyToMany(mappedBy = "products")
-	@JsonIgnore // request body 보낼 때 숨길 수 있음
+	// @JsonIgnore // request body 보낼 때 숨길 수 있음
 	private List<User> users = new ArrayList<>();
 
 	public Product(Long id, String name, BigDecimal price) {

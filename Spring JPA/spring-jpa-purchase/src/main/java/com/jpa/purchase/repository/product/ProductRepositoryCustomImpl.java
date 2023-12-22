@@ -17,9 +17,10 @@ public class ProductRepositoryCustomImpl implements ProductRepositoryCustom {
 	public ProductRepositoryCustomImpl(JPAQueryFactory queryFactory) {
 		this.queryFactory = queryFactory;
 	}
-
+	
+	
 	@Override
-	public List<User> findProductByUser(Long productId) {
+	public List<User> findProductNUser(Long productId) {
 		QUser user = QUser.user;
 		QProduct product =  QProduct.product;
 		

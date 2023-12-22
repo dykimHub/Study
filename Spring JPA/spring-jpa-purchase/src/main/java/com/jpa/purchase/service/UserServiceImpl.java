@@ -2,11 +2,13 @@ package com.jpa.purchase.service;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.crossstore.ChangeSetPersister.NotFoundException;
 import org.springframework.stereotype.Service;
 
+import com.jpa.purchase.dto.ProductDto;
 import com.jpa.purchase.dto.UserDto;
 import com.jpa.purchase.entity.Product;
 import com.jpa.purchase.entity.User;
@@ -36,15 +38,12 @@ public class UserServiceImpl implements UserService {
 		// 전체 필드를 가지고 있는 생성자에만 builder를 붙였기 때문에
 		// 필드 하나라도 누락되면 데이터 전송이 안됨
 		// id는 generatedvalue라 ㄱㅊㄱㅊ
-		
-		if(getUserByName(userDto.getName()) != null)
+
+		if (getUserByName(userDto.getName()) != null)
 			throw new DataIntegrityViolationException("Duplicate Name");
 
-		User user = User.builder()
-				.password(userDto.getPassword())
-				.name(userDto.getName())
-				.birthDate(userDto.getBirthDate())
-				.build();
+		User user = User.builder().password(userDto.getPassword()).name(userDto.getName())
+				.birthDate(userDto.getBirthDate()).build();
 
 		// jpa repository 상속받아서 쓰는 save는 알아서 transactional 하게 해줌
 		User savedUser = userRepository.save(user);
@@ -103,10 +102,21 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public List<Product> getProductByUser(Long id) throws NotFoundException {
-		return userRepository.findById(id)
-		        .orElseThrow(() -> new NotFoundException())
-		        .getProducts();
+	public List<ProductDto> getProductByUser(Long id) throws NotFoundException {
+		
+		User user = userRepository.findById(id).orElseThrow(() -> new NotFoundException());
+		
+		List<ProductDto> productDtos = user.getProducts()
+		           .stream() // mapping 하려고 펼치는 거
+		           .map(p -> ProductDto.builder() 
+		                   .id(p.getId())
+		                   .name(p.getName())
+		                   .price(p.getPrice())
+		                   .build()) // 매핑 하려는 함수
+		           .collect(Collectors.toList()); // 리스트로 변환
+
+		return productDtos;
+
 	}
 
 }

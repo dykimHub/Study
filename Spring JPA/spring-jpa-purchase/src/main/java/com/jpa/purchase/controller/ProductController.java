@@ -55,7 +55,7 @@ public class ProductController {
 
 	}
 
-	@GetMapping("/user/{productId}")
+	@GetMapping("/myusers/{productId}")
 	@Operation(summary = "상품을 구매한 회원")
 	public ResponseEntity<?> getUserAndProduct(@PathVariable Long productId) {
 		List<User> buyers = productService.findProductByUser(productId);

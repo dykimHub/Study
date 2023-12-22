@@ -6,7 +6,7 @@ import lombok.Data;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-@Data // dto는 pathvariable 때문에 setter 필요해서..
+@Data
 @NoArgsConstructor
 public class UserDto {
 

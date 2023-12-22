@@ -7,7 +7,7 @@ import com.jpa.purchase.entity.User;
 
 public interface ProductRepositoryCustom {
 	
-	List<User> findProductByUser(Long productId);
+	List<User> findProductNUser(Long productId);
 
 	Long updateProduct(Long id, Product updatedProduct);
 

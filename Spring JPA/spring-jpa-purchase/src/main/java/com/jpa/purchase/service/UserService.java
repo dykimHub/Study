@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.data.crossstore.ChangeSetPersister.NotFoundException;
 
+import com.jpa.purchase.dto.ProductDto;
 import com.jpa.purchase.dto.UserDto;
 import com.jpa.purchase.entity.Product;
 import com.jpa.purchase.entity.User;
@@ -22,6 +23,8 @@ public interface UserService {
 
 	Long buyProduct(Long userId, Long productId) throws NotFoundException;
 
-	List<Product> getProductByUser(Long id) throws NotFoundException;
+	List<ProductDto> getProductByUser(Long id) throws NotFoundException;
+
+	// List<Product> getProductByUser(Long id) throws NotFoundException;
 
 }

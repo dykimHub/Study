@@ -12,5 +12,7 @@ public class ProductRepositoryTest {
 	
 	@Autowired
 	private ProductRepository productReoisitory;
+	
+	
 
 }

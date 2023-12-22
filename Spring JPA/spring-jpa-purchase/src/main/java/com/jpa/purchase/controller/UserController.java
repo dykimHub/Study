@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.jpa.purchase.dto.ProductDto;
 import com.jpa.purchase.dto.UserDto;
 import com.jpa.purchase.entity.Product;
 import com.jpa.purchase.entity.User;
@@ -134,12 +135,12 @@ public class UserController {
 	public ResponseEntity<?> getProductByUser(@PathVariable Long id) {
 
 		try {
-			List<Product> products = userService.getProductByUser(id);
+			List<ProductDto> products = userService.getProductByUser(id);
 
 			if (products == null || products.size() == 0)
 				return new ResponseEntity<Void>(HttpStatus.NO_CONTENT);
 
-			return new ResponseEntity<List<Product>>(products, HttpStatus.OK);
+			return new ResponseEntity<List<ProductDto>>(products, HttpStatus.OK);
 
 		} catch (NotFoundException e) {
 			return new ResponseEntity<Void>(HttpStatus.NO_CONTENT);
