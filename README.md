@@ -1,5 +1,5 @@
-## Spring JPA
-### Master Hibernate and JPA with Spring Boot in 100 steps
+# Spring JPA
+## Master Hibernate and JPA with Spring Boot in 100 steps
 https://www.udemy.com/course/hibernate-jpa-tutorial-for-beginners-in-100-steps/
   
 #### JPA and Hibernate - Entities, Annotations   
@@ -35,7 +35,7 @@ files: spring-data-jpa(Course, Student, Address, StudentRepositoryTest, CourseSp
 #### Tuning your JPA application with Hibernate - Solve N+1 Queries Issue       
 files: spring-data-jpa(Course, PerformanceTuningTest)  
 
-### Practice Project: Building REST API with Spring Boot and JPA
+## Practice Project: Building REST API with Spring Boot and JPA
 ### Title: spring-jpa-user
 
 #### 초기 설정  
