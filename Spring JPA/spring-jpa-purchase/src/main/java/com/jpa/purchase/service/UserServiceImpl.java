@@ -26,24 +26,37 @@ public class UserServiceImpl implements UserService {
 	private final UserRepository userRepository;
 	private final ProductRepository productRepository;
 
-	public List<User> getUserList() {
-		return userRepository.findAll();
+	public List<UserDto> getUserList() throws NotFoundException {
+
+		List<User> users = userRepository.findAll();
+
+		if (users.isEmpty())
+			throw new NotFoundException();
+
+		List<UserDto> userDtos = users.stream()
+				.map(u -> UserDto.builder()
+						.id(u.getId())
+						.name(u.getName())
+						.birthDate(u.getBirthDate())
+						.build())
+				.collect(Collectors.toList());
+
+		return userDtos;
 	}
 
 	public Long registUser(UserDto userDto) {
 		// 보안 때문에 POST 메서드는 프론트단에서 UserDto로 객체를 받고 -> 서비스단으로 UserDto를 보내고 ->
 		// 서비스단에서 Dto에 있는 값을 Entity로 바꿔서 -> Repository에 저장
 		// Dto는 데이터베이스와는 관련이 없고 데이터 전송시에만 이용
-
-		// 전체 필드를 가지고 있는 생성자에만 builder를 붙였기 때문에
-		// 필드 하나라도 누락되면 데이터 전송이 안됨
-		// id는 generatedvalue라 ㄱㅊㄱㅊ
-
+		
 		if (getUserByName(userDto.getName()) != null)
 			throw new DataIntegrityViolationException("Duplicate Name");
 
-		User user = User.builder().password(userDto.getPassword()).name(userDto.getName())
-				.birthDate(userDto.getBirthDate()).build();
+		User user = User.builder()
+				.password(userDto.getPassword())
+				.name(userDto.getName())
+				.birthDate(userDto.getBirthDate())
+				.build();
 
 		// jpa repository 상속받아서 쓰는 save는 알아서 transactional 하게 해줌
 		User savedUser = userRepository.save(user);
@@ -54,66 +67,67 @@ public class UserServiceImpl implements UserService {
 
 	public Long updateUser(Long id, UserDto userDto) throws NotFoundException {
 
-		// 반환값이 Optional<User> 이거라서 user 있으면 반환하고, 없으면 null 반환하게끔
-		Optional<User> user = userRepository.findById(id);
-
-		if (user.isEmpty())
+		if (userRepository.findById(id).isEmpty())
 			throw new NotFoundException();
 
-		User updatedUser = User.builder()
-				.password(userDto.getPassword())
-				.name(userDto.getName())
-				.birthDate(userDto.getBirthDate())
-				.build();
+		return userRepository.updateUser(id, userDto);
 
-		return userRepository.updateUser(id, updatedUser);
 	}
 
 	@Override
 	public void deleteUser(Long id) throws NotFoundException {
-		Optional<User> user = userRepository.findById(id);
-
-		if (user.isEmpty())
-			throw new NotFoundException();
+		User user = userRepository.findById(id).orElseThrow(() -> new NotFoundException());
 
 		userRepository.deleteById(id);
 
 	}
 
 	@Override
-	public User getUserByName(String name) {
-		return userRepository.findByName(name);
+	public UserDto getUserByName(String name) {
+
+		User user = userRepository.findByName(name);
+
+		if (user != null) {
+			UserDto userDto = UserDto.builder()
+					.id(user.getId())
+					.name(user.getName())
+					.birthDate(user.getBirthDate())
+					.build();
+
+			return userDto;
+
+		}
+
+		return null;
 	}
 
 	@Override
 	public Long buyProduct(Long userId, Long productId) throws NotFoundException {
 
-		User user = userRepository.findById(userId).orElse(null);
-		Product product = productRepository.findById(productId).orElse(null);
+		User user = userRepository.findById(userId).orElseThrow(() -> new NotFoundException());
+		Product product = productRepository.findById(productId).orElseThrow(() -> new NotFoundException());
 
-		if (user == null || product == null)
-			throw new NotFoundException();
-
+		// user테이블에만 추가해도 product 테이블에는 자동 매핑
 		user.getProducts().add(product);
 		User buyProduct = userRepository.save(user);
 
+		// 사용자 아이디 반환
 		return buyProduct.getId();
 
 	}
 
 	@Override
 	public List<ProductDto> getProductByUser(Long id) throws NotFoundException {
-		
+
 		User user = userRepository.findById(id).orElseThrow(() -> new NotFoundException());
-		
-		List<ProductDto> productDtos = user.getProducts()
-		           .stream() // mapping 하려고 펼치는 거
-		           .map(p -> ProductDto.builder() 
-		                   .id(p.getId())
-		                   .name(p.getName())
-		                   .price(p.getPrice())
-		                   .build()) // 매핑 하려는 함수
-		           .collect(Collectors.toList()); // 리스트로 변환
+
+		List<ProductDto> productDtos = user.getProducts().stream() // mapping 하려고 펼치는 거
+				.map(p -> ProductDto.builder()
+						.id(p.getId())
+						.name(p.getName())
+						.price(p.getPrice())
+						.build()) // 매핑 하려는 함수
+				.collect(Collectors.toList()); // 리스트로 변환
 
 		return productDtos;
 

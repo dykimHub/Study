@@ -36,12 +36,18 @@ public class UserController {
 	@GetMapping("/users")
 	@Operation(summary = "회원 목록")
 	public ResponseEntity<?> getUserList() {
-		List<User> users = userService.getUserList();
 
-		if (users == null || users.size() == 0)
+		try {
+			List<UserDto> userDtos = userService.getUserList();
+			return new ResponseEntity<List<UserDto>>(userDtos, HttpStatus.OK);
+
+		} catch (NotFoundException e) {
 			return new ResponseEntity<Void>(HttpStatus.NO_CONTENT);
 
-		return new ResponseEntity<List<User>>(users, HttpStatus.OK);
+		} catch (Exception e) {
+			String errorMessage = e.getMessage();
+			return new ResponseEntity<String>(errorMessage, HttpStatus.INTERNAL_SERVER_ERROR);
+		}
 
 	}
 
@@ -88,7 +94,8 @@ public class UserController {
 
 		try {
 			userService.deleteUser(id);
-			return new ResponseEntity<Void>(HttpStatus.OK);
+			// 반환값 void라서 임의로 설정
+			return new ResponseEntity<Integer>(1, HttpStatus.OK);
 
 		} catch (NotFoundException e) {
 			return new ResponseEntity<Void>(HttpStatus.NO_CONTENT);
@@ -103,12 +110,12 @@ public class UserController {
 	@GetMapping("/user/{name}")
 	@Operation(summary = "회원 찾기(이름)")
 	public ResponseEntity<?> getUserByName(@PathVariable String name) {
-		User user = userService.getUserByName(name);
+		UserDto userDto = userService.getUserByName(name);
 
-		if (user == null)
+		if (userDto == null)
 			return new ResponseEntity<Void>(HttpStatus.NO_CONTENT);
 
-		return new ResponseEntity<User>(user, HttpStatus.OK);
+		return new ResponseEntity<UserDto>(userDto, HttpStatus.OK);
 
 	}
 
@@ -148,7 +155,7 @@ public class UserController {
 		} catch (Exception e) {
 			String errorMessage = e.getMessage();
 			return new ResponseEntity<String>(errorMessage, HttpStatus.INTERNAL_SERVER_ERROR);
-			
+
 		}
 
 	}

@@ -4,7 +4,7 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.jpa.purchase.dto.UserDto;
 
 import jakarta.persistence.Cacheable;
 import jakarta.persistence.CascadeType;
@@ -18,22 +18,14 @@ import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToMany;
 import jakarta.persistence.Table;
 import lombok.AccessLevel;
-import lombok.AllArgsConstructor;
 import lombok.Builder;
-import lombok.Data;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.NonNull;
-import lombok.RequiredArgsConstructor;
-import lombok.Setter;
+import lombok.ToString;
 
-// @getter, @setter, @RequiredArgsConstructor , toString() 자동생성
-// 근데 @setter를 무분별하게 쓰게 돼서 무의미한 객체가 생성될 가능성 존재 
-@Data
-// @Getter
-// @Setter // 수정할 거 있으면 querydsl에 하는게 낫겠다
-@NoArgsConstructor(access = AccessLevel.PROTECTED) // 기본 생성자를 protected로 생성
-// @AllArgsConstructor // 모든 필드를 파라미터를 받는 생성자; 모든 클래스를 외부로 노출하므로 위험
+@Getter
+//기본 생성자 없으면 default 에러 나는데 있으면 필드가 비어있어도 db에 들어갈 상황을 대비하여 접근제어자 protected로
+@NoArgsConstructor(access = AccessLevel.PROTECTED) 
 @Table(name = "USER")
 @Cacheable
 @Entity
@@ -42,38 +34,38 @@ public class User {
 	@Id // primary key
 	@GeneratedValue(strategy = GenerationType.IDENTITY) // auto increment key
 	@Column(name = "id") // mysql 매핑 이름
-	private Long id;
+	private Long id; // Long은 null 값을 나타낼 수 있음
 
-	@JsonIgnore // 리턴할 때 json에서 숨김
 	@Column(name = "password", nullable = false) // ,length = 10 -> 길이 제한
 	private String password;
 
-	// @NonNull
 	// unique 설정걸기 전에 테이블에 중복된 값 있으면 작동 안 함
+	// 그리고 unique 설정하니까 일단 들어오고(id 증가) 중복이면 빼는거라 서비스 단에서 처리하는게 나을듯
 	@Column(name = "name", nullable = false)
 	private String name;
 
 	@Column(name = "birth_date", nullable = false)
 	private LocalDate birthDate;
-
 	
-	// 오너테이블 설정
-	// 서로 삭제했을 때 관계만 끊고 싶으면 cascade type 지정 안해도 됨
-	@ManyToMany
-	@JoinTable(
-		name = "USER_PRODUCT", 
-		joinColumns = @JoinColumn(name = "USER_ID"),
-		inverseJoinColumns = @JoinColumn(name="PRODUCT_ID"))
-	private List<Product> products = new ArrayList<>();
-
-	// 모든 필드가 있을 때만 builder로 생성 가능하게끔?? 생성자에 붙였음 클래스에 붙이는 것도 가능
+	// 전송용 메서드
+	// @Builder를 모든 필드를 가지는 생성자 메서드 위에만 붙이면 모든 필드를 설정해야만 새로운 객체 형성 가능
+	// @RequireArgsConstructor 보다 필드 빼먹을 위험이 줄어든다
+	// 클래스 위에 붙이면 선택적으로 필드 설정 가능
+	// id는 자동 증가라 생성자에서 뺐다
 	@Builder
-	public User(Long id, String password, String name, LocalDate birthDate) {
-		super();
-		this.id = id;
+	public User(String password, String name, LocalDate birthDate) {
 		this.password = password;
 		this.name = name;
 		this.birthDate = birthDate;
 	}
+
+	// 오너테이블 설정
+	// 서로 삭제했을 때 관계만 끊고 싶으면 cascade type 지정 안해도 됨
+	@ManyToMany
+	@JoinTable(
+			name = "USER_PRODUCT", 
+			joinColumns = @JoinColumn(name = "USER_ID"), 
+			inverseJoinColumns = @JoinColumn(name = "PRODUCT_ID"))
+	private List<Product> products = new ArrayList<>();
 
 }

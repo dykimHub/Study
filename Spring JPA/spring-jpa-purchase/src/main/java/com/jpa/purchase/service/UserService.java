@@ -11,7 +11,7 @@ import com.jpa.purchase.entity.User;
 
 public interface UserService {
 
-	List<User> getUserList();
+	List<UserDto> getUserList() throws NotFoundException;
 
 	Long registUser(UserDto userDto);
 
@@ -19,12 +19,10 @@ public interface UserService {
 
 	void deleteUser(Long id) throws NotFoundException;
 
-	User getUserByName(String name);
+	UserDto getUserByName(String name);
 
 	Long buyProduct(Long userId, Long productId) throws NotFoundException;
 
 	List<ProductDto> getProductByUser(Long id) throws NotFoundException;
-
-	// List<Product> getProductByUser(Long id) throws NotFoundException;
 
 }

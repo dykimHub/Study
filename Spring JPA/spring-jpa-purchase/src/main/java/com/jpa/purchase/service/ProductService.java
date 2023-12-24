@@ -4,21 +4,23 @@ import java.util.List;
 
 import org.springframework.data.crossstore.ChangeSetPersister.NotFoundException;
 
+import com.jpa.purchase.dto.ProductDto;
+import com.jpa.purchase.dto.UserDto;
 import com.jpa.purchase.entity.Product;
 import com.jpa.purchase.entity.User;
 
 public interface ProductService {
 
-	List<Product> getProductList();
+	List<ProductDto> getProductList() throws NotFoundException;
 
-	Long registProduct(Product product);
+	Long registProduct(ProductDto productDto);
 
-	List<User> findProductByUser(Long productId);
+	List<UserDto> getProductByUser(Long productId) throws NotFoundException;
 
 	void deleteProduct(Long id) throws NotFoundException;
 
-	Long updateProduct(Long id, Product product) throws NotFoundException;
+	Long updateProduct(Long id, ProductDto productDto) throws NotFoundException;
 
-	List<Product> getProductByName(String name);
+	List<ProductDto> getProductByName(String name) throws NotFoundException;
 
 }

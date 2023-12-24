@@ -10,22 +10,18 @@ import jakarta.persistence.Cacheable;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToMany;
 import jakarta.persistence.Table;
 import lombok.AccessLevel;
-import lombok.AllArgsConstructor;
-import lombok.Data;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.ToString;
 
 @Getter
+@NoArgsConstructor(access = AccessLevel.PROTECTED) 
 @Table(name = "PRODUCT")
-@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Cacheable
 @Entity
 public class Product {
@@ -41,15 +37,17 @@ public class Product {
 	@Column(name = "price", nullable = false)
 	private BigDecimal price;
 	
-	@ManyToMany(mappedBy = "products")
-	// @JsonIgnore // request body 보낼 때 숨길 수 있음
-	private List<User> users = new ArrayList<>();
-
-	public Product(Long id, String name, BigDecimal price) {
-		super();
-		this.id = id;
+	// 등록용
+	@Builder
+	public Product(String name, BigDecimal price) {
 		this.name = name;
 		this.price = price;
 	}
+	
+	@ManyToMany(mappedBy = "products")
+	// jackson library, 출력할 때 객체에서 숨겨줌 
+	// 순환 참조를 쉽게 방지하는 방식이긴 하나 지양해야해서 dto로 반환할 필드만 따로 생성자 만드는 방식 추천
+	// @JsonIgnore
+	private List<User> users = new ArrayList<>();
 	
 }

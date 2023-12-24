@@ -14,6 +14,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.jpa.purchase.dto.ProductDto;
+import com.jpa.purchase.dto.UserDto;
 import com.jpa.purchase.entity.Product;
 import com.jpa.purchase.entity.User;
 import com.jpa.purchase.service.ProductService;
@@ -30,22 +32,28 @@ public class ProductController {
 
 	@GetMapping("/products")
 	@Operation(summary = "상품 목록")
-	public ResponseEntity<?> getUserList() {
-		List<Product> products = productService.getProductList();
+	public ResponseEntity<?> getProductList() {
 
-		if (products == null || products.size() == 0)
+		try {
+			List<ProductDto> products = productService.getProductList();
+			return new ResponseEntity<List<ProductDto>>(products, HttpStatus.OK);
+
+		} catch (NotFoundException e) {
 			return new ResponseEntity<Void>(HttpStatus.NO_CONTENT);
 
-		return new ResponseEntity<List<Product>>(products, HttpStatus.OK);
+		} catch (Exception e) {
+			String errorMessage = e.getMessage();
+			return new ResponseEntity<String>(errorMessage, HttpStatus.INTERNAL_SERVER_ERROR);
+		}
 
 	}
 
 	@PostMapping("/product")
 	@Operation(summary = "상품 등록")
-	public ResponseEntity<?> registProduct(@RequestBody Product product) {
+	public ResponseEntity<?> registProduct(@RequestBody ProductDto productDto) {
 
 		try {
-			Long result = productService.registProduct(product);
+			Long result = productService.registProduct(productDto);
 			return new ResponseEntity<Long>(result, HttpStatus.CREATED);
 
 		} catch (Exception e) {
@@ -55,25 +63,14 @@ public class ProductController {
 
 	}
 
-	@GetMapping("/myusers/{productId}")
-	@Operation(summary = "상품을 구매한 회원")
-	public ResponseEntity<?> getUserAndProduct(@PathVariable Long productId) {
-		List<User> buyers = productService.findProductByUser(productId);
-
-		if (buyers == null || buyers.size() == 0)
-			return new ResponseEntity<Void>(HttpStatus.NO_CONTENT);
-
-		return new ResponseEntity<List<User>>(buyers, HttpStatus.OK);
-
-	}
-
 	@DeleteMapping("/product/delete/{id}")
 	@Operation(summary = "상품 삭제")
-	public ResponseEntity<?> deleteUser(@PathVariable Long id) {
+	public ResponseEntity<?> deleteProduct(@PathVariable Long id) {
 
 		try {
 			productService.deleteProduct(id);
-			return new ResponseEntity<Void>(HttpStatus.OK);
+			// 반환값 void라서 임의로 설정
+			return new ResponseEntity<Integer>(1, HttpStatus.OK);
 
 		} catch (NotFoundException e) {
 			return new ResponseEntity<Void>(HttpStatus.NO_CONTENT);
@@ -87,10 +84,10 @@ public class ProductController {
 
 	@PutMapping("/product/update/{id}")
 	@Operation(summary = "상품 수정")
-	public ResponseEntity<?> updateUser(@RequestBody Product product, @PathVariable Long id) {
+	public ResponseEntity<?> updateProduct(@RequestBody ProductDto productDto, @PathVariable Long id) {
 
 		try {
-			Long result = productService.updateProduct(id, product);
+			Long result = productService.updateProduct(id, productDto);
 			return new ResponseEntity<Long>(result, HttpStatus.OK);
 
 		} catch (NotFoundException e) {
@@ -104,14 +101,38 @@ public class ProductController {
 	}
 
 	@GetMapping("/product/{name}")
-	@Operation(summary = "상품 찾기(이름)")
+	@Operation(summary = "상품 찾기(비슷한 이름)")
 	public ResponseEntity<?> getProductByName(@PathVariable String name) {
-		List<Product> products = productService.getProductByName(name);
 
-		if (products == null || products.size() == 0)
+		try {
+			List<ProductDto> products = productService.getProductByName(name);
+			return new ResponseEntity<List<ProductDto>>(products, HttpStatus.OK);
+
+		} catch (NotFoundException e) {
 			return new ResponseEntity<Void>(HttpStatus.NO_CONTENT);
 
-		return new ResponseEntity<List<Product>>(products, HttpStatus.OK);
+		} catch (Exception e) {
+			String errorMessage = e.getMessage();
+			return new ResponseEntity<String>(errorMessage, HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+
+	}
+
+	@GetMapping("/myusers/{id}")
+	@Operation(summary = "상품을 구매한 회원")
+	public ResponseEntity<?> getUserByProduct(@PathVariable Long id) {
+
+		try {
+			List<UserDto> buyers = productService.getProductByUser(id);
+			return new ResponseEntity<List<UserDto>>(buyers, HttpStatus.OK);
+
+		} catch (NotFoundException e) {
+			return new ResponseEntity<Void>(HttpStatus.NO_CONTENT);
+
+		} catch (Exception e) {
+			String errorMessage = e.getMessage();
+			return new ResponseEntity<String>(errorMessage, HttpStatus.INTERNAL_SERVER_ERROR);
+		}
 
 	}
 
