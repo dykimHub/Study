@@ -36,7 +36,7 @@ files: spring-data-jpa(Course, Student, Address, StudentRepositoryTest, CourseSp
 files: spring-data-jpa(Course, PerformanceTuningTest)  
 
 ## Practice Project: Building REST API with Spring Boot and JPA
-### Title: spring-jpa-user
+### Title: spring-jpa-purchase
 
 #### 초기 설정  
 Spring Starter Project 생성: Spring Web, Spring Data JPA, MySQL Driver, Spring Data JDBC, H2 Database, Lombok, Spring Boot DevTools 추가  
