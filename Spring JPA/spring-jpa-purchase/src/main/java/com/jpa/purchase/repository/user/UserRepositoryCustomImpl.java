@@ -52,14 +52,14 @@ public class UserRepositoryCustomImpl implements UserRepositoryCustom {
 
 	@Override
 	@Transactional // 안붙이면 오류 남 실행 오류나면 롤백해야돼서
-	public Long updateUser(Long id, UserDto userDto) {
+	public Long updateUser(Long id, User user) {
 		QUser quser = QUser.user;
 
 		return (queryFactory.update(quser)
 				.where(quser.id.eq(id))
-				.set(quser.password, userDto.getPassword())
-				.set(quser.name, userDto.getName())
-				.set(quser.birthDate, userDto.getBirthDate()))
+				.set(quser.password, user.getPassword())
+				.set(quser.name, user.getName())
+				.set(quser.birthDate, user.getBirthDate()))
 				.execute(); // 영향받은 행 개수 반환
 		
 	}			

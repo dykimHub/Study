@@ -21,18 +21,20 @@ import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.NonNull;
+import lombok.RequiredArgsConstructor;
 import lombok.ToString;
 
 @Getter
 //기본 생성자 없으면 default 에러 나는데 있으면 필드가 비어있어도 db에 들어갈 상황을 대비하여 접근제어자 protected로
-@NoArgsConstructor(access = AccessLevel.PROTECTED) 
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Table(name = "USER")
 @Cacheable
 @Entity
 public class User {
 
 	@Id // primary key
-	@GeneratedValue(strategy = GenerationType.IDENTITY) // auto increment key
+	@GeneratedValue(strategy = GenerationType.IDENTITY) // h2 db 때문에 strategy 설정해야함
 	@Column(name = "id") // mysql 매핑 이름
 	private Long id; // Long은 null 값을 나타낼 수 있음
 
@@ -58,7 +60,7 @@ public class User {
 		this.name = name;
 		this.birthDate = birthDate;
 	}
-
+	
 	// 오너테이블 설정
 	// 서로 삭제했을 때 관계만 끊고 싶으면 cascade type 지정 안해도 됨
 	@ManyToMany

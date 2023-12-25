@@ -56,7 +56,12 @@ public class ProductServiceImpl implements ProductService {
 		if(productRepository.findById(id).isEmpty())
 			throw new NotFoundException();
 		
-		return productRepository.updateProduct(id, productDto);
+		Product product = Product.builder()
+				.name(productDto.getName())
+				.price(productDto.getPrice())
+				.build();
+		
+		return productRepository.updateProduct(id, product);
 	}
 
 
@@ -72,7 +77,7 @@ public class ProductServiceImpl implements ProductService {
 	@Override
 	public List<ProductDto> getProductByName(String name) throws NotFoundException {
 		
-		List<Product> products = productRepository.getProductByName(name);
+		List<Product> products = productRepository.findProductByName(name);
 		
 		if(products.isEmpty())
 			throw new NotFoundException();

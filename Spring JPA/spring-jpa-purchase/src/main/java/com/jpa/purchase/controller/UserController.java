@@ -143,10 +143,6 @@ public class UserController {
 
 		try {
 			List<ProductDto> products = userService.getProductByUser(id);
-
-			if (products == null || products.size() == 0)
-				return new ResponseEntity<Void>(HttpStatus.NO_CONTENT);
-
 			return new ResponseEntity<List<ProductDto>>(products, HttpStatus.OK);
 
 		} catch (NotFoundException e) {

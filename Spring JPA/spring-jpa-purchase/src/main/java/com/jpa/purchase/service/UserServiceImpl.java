@@ -69,8 +69,14 @@ public class UserServiceImpl implements UserService {
 
 		if (userRepository.findById(id).isEmpty())
 			throw new NotFoundException();
+		
+		User user = User.builder()
+				.password(userDto.getPassword())
+				.name(userDto.getName())
+				.birthDate(userDto.getBirthDate())
+				.build();
 
-		return userRepository.updateUser(id, userDto);
+		return userRepository.updateUser(id, user);
 
 	}
 
@@ -118,7 +124,8 @@ public class UserServiceImpl implements UserService {
 
 	@Override
 	public List<ProductDto> getProductByUser(Long id) throws NotFoundException {
-
+		
+		// 회원이 없는 경우
 		User user = userRepository.findById(id).orElseThrow(() -> new NotFoundException());
 
 		List<ProductDto> productDtos = user.getProducts().stream() // mapping 하려고 펼치는 거
@@ -128,6 +135,9 @@ public class UserServiceImpl implements UserService {
 						.price(p.getPrice())
 						.build()) // 매핑 하려는 함수
 				.collect(Collectors.toList()); // 리스트로 변환
+		
+		if(productDtos.isEmpty())
+			throw new NotFoundException();
 
 		return productDtos;
 

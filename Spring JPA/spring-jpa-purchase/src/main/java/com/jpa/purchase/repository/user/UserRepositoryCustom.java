@@ -5,6 +5,6 @@ import com.jpa.purchase.entity.User;
 
 public interface UserRepositoryCustom {
 
-	Long updateUser(Long id, UserDto userDto);
+	Long updateUser(Long id, User user);
 
 }

@@ -8,6 +8,6 @@ import com.jpa.purchase.entity.User;
 
 public interface ProductRepositoryCustom {
 
-	Long updateProduct(Long id, ProductDto productDto);
+	Long updateProduct(Long id, Product product);
 
 }

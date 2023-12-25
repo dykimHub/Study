@@ -21,13 +21,13 @@ public class ProductRepositoryCustomImpl implements ProductRepositoryCustom {
 
 	@Override
 	@Transactional
-	public Long updateProduct(Long id, ProductDto productDto) {
-		QProduct product =  QProduct.product;
+	public Long updateProduct(Long id, Product product) {
+		QProduct qproduct =  QProduct.product;
 
-		 return queryFactory.update(product)
-	             .where(product.id.eq(id))
-	             .set(product.name, productDto.getName())
-	             .set(product.price, productDto.getPrice())
+		 return queryFactory.update(qproduct)
+	             .where(qproduct.id.eq(id))
+	             .set(qproduct.name, product.getName())
+	             .set(qproduct.price, product.getPrice())
 	             .execute();
 		 
 	}	

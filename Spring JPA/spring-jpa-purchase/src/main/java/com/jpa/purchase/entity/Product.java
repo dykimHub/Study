@@ -10,6 +10,7 @@ import jakarta.persistence.Cacheable;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.ManyToMany;
 import jakarta.persistence.Table;
@@ -27,7 +28,7 @@ import lombok.ToString;
 public class Product {
 
 	@Id
-	@GeneratedValue
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "id")
 	private Long id;
 
@@ -43,7 +44,7 @@ public class Product {
 		this.name = name;
 		this.price = price;
 	}
-	
+
 	@ManyToMany(mappedBy = "products")
 	// jackson library, 출력할 때 객체에서 숨겨줌 
 	// 순환 참조를 쉽게 방지하는 방식이긴 하나 지양해야해서 dto로 반환할 필드만 따로 생성자 만드는 방식 추천
