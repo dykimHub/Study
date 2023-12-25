@@ -42,7 +42,6 @@ files: spring-data-jpa(Course, PerformanceTuningTest)
 Spring Starter Project 생성: Spring Web, Spring Data JPA, MySQL Driver, Spring Data JDBC, H2 Database, Lombok, Spring Boot DevTools 추가  
 pom.xml: openapi, jackson-core, commons-dbcp2, commons-fileupload, aspectjweaver, aspectjrt 추가 
 src/main/resources: application.properties-> MySQL dataSource 설정  
-src/test/resources 폴더(소스폴더X) 생성: application-test.properties 생성-> H2 dataSource 설정  
 getUserList, registUser, getUserbyName, deleteUser 메서드 openapi 테스트
 
 #### QueryDSL  
@@ -63,13 +62,15 @@ UserDto, ProductDto 추가
 기존에 entity를 직접 전송하거나 반환하던 메서드를 Dto를 통하도록 변경   
 getProductByUser, getUserByProduct 메서드 테스트  
 
-#### 인라인 DB로 단위테스트  
-src/test/java: repository > UserRepositoryTest 생성(properties profile 설정)   
+#### 인라인 DB로 JUnit 테스트
+src/test/resources 폴더(소스폴더X) 생성: application-test.properties 생성-> H2 dataSource 설정  
 src/test/resources: data.sql(초기 데이터 생성)  
+src/test/java: repository > UserRepositoryTest, ProductRepositoryTest 생성 (properties profile 설정)  
+UserRepository, ProductRepository 메서드 Assertion Testing  
 
 #### Cache  
 pom.xml: ehcache, hibernate-jcache 추가  
 application-test.properties: second-level cache, log-level 설정  
 entity에 @Cacheable 추가  
-findById 메서드 테스트
+JDBC 로그 확인; L2C hits, L2C misses  
     
