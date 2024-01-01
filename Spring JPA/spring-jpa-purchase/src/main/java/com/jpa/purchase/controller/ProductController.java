@@ -16,8 +16,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.jpa.purchase.dto.ProductDto;
 import com.jpa.purchase.dto.UserDto;
-import com.jpa.purchase.entity.Product;
-import com.jpa.purchase.entity.User;
 import com.jpa.purchase.service.ProductService;
 
 import io.swagger.v3.oas.annotations.Operation;

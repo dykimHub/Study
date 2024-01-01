@@ -1,10 +1,8 @@
 package com.jpa.purchase.repository;
 
 import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.math.BigDecimal;
-import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -17,19 +15,11 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.data.crossstore.ChangeSetPersister.NotFoundException;
 import org.springframework.test.context.ActiveProfiles;
 
 import com.jpa.purchase.SpringJpaPurchaseApplication;
-import com.jpa.purchase.dto.ProductDto;
-import com.jpa.purchase.dto.UserDto;
 import com.jpa.purchase.entity.Product;
-import com.jpa.purchase.entity.User;
 import com.jpa.purchase.repository.product.ProductRepository;
-import com.jpa.purchase.repository.user.UserRepository;
-import com.jpa.purchase.service.ProductService;
-
-import jakarta.transaction.Transactional;
 
 @ActiveProfiles("test")
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)

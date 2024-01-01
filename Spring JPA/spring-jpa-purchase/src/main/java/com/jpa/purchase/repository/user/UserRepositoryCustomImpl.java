@@ -2,7 +2,6 @@ package com.jpa.purchase.repository.user;
 
 import org.springframework.transaction.annotation.Transactional;
 
-import com.jpa.purchase.dto.UserDto;
 import com.jpa.purchase.entity.QUser;
 import com.jpa.purchase.entity.User;
 

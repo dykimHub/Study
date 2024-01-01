@@ -4,10 +4,9 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.jpa.purchase.dto.UserDto;
+import org.hibernate.annotations.Cache;
+import org.hibernate.annotations.CacheConcurrencyStrategy;
 
-import jakarta.persistence.Cacheable;
-import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -21,15 +20,12 @@ import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.NonNull;
-import lombok.RequiredArgsConstructor;
-import lombok.ToString;
 
 @Getter
 //기본 생성자 없으면 default 에러 나는데 있으면 필드가 비어있어도 db에 들어갈 상황을 대비하여 접근제어자 protected로
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Table(name = "USER")
-@Cacheable
+@Cache(usage = CacheConcurrencyStrategy.READ_WRITE) // 클래스용 캐시 어노테이션
 @Entity
 public class User {
 
@@ -48,7 +44,7 @@ public class User {
 
 	@Column(name = "birth_date", nullable = false)
 	private LocalDate birthDate;
-	
+
 	// 전송용 메서드
 	// @Builder를 모든 필드를 가지는 생성자 메서드 위에만 붙이면 모든 필드를 설정해야만 새로운 객체 형성 가능
 	// @RequireArgsConstructor 보다 필드 빼먹을 위험이 줄어든다
@@ -60,14 +56,11 @@ public class User {
 		this.name = name;
 		this.birthDate = birthDate;
 	}
-	
+
 	// 오너테이블 설정
 	// 서로 삭제했을 때 관계만 끊고 싶으면 cascade type 지정 안해도 됨
 	@ManyToMany
-	@JoinTable(
-			name = "USER_PRODUCT", 
-			joinColumns = @JoinColumn(name = "USER_ID"), 
-			inverseJoinColumns = @JoinColumn(name = "PRODUCT_ID"))
+	@JoinTable(name = "USER_PRODUCT", joinColumns = @JoinColumn(name = "USER_ID"), inverseJoinColumns = @JoinColumn(name = "PRODUCT_ID"))
 	private List<Product> products = new ArrayList<>();
 
 }

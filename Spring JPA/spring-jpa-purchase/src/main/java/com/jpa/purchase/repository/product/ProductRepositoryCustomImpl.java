@@ -1,14 +1,9 @@
 package com.jpa.purchase.repository.product;
 
-import java.util.List;
-
 import org.springframework.transaction.annotation.Transactional;
 
-import com.jpa.purchase.dto.ProductDto;
 import com.jpa.purchase.entity.Product;
 import com.jpa.purchase.entity.QProduct;
-import com.jpa.purchase.entity.QUser;
-import com.jpa.purchase.entity.User;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 
 public class ProductRepositoryCustomImpl implements ProductRepositoryCustom {

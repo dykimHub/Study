@@ -1,9 +1,9 @@
 package com.jpa.purchase.service;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.crossstore.ChangeSetPersister.NotFoundException;
 import org.springframework.stereotype.Service;
@@ -14,7 +14,6 @@ import com.jpa.purchase.entity.Product;
 import com.jpa.purchase.entity.User;
 import com.jpa.purchase.repository.product.ProductRepository;
 import com.jpa.purchase.repository.user.UserRepository;
-import com.jpa.purchase.repository.user.UserRepositoryCustom;
 
 import lombok.RequiredArgsConstructor;
 
@@ -25,7 +24,9 @@ public class UserServiceImpl implements UserService {
 
 	private final UserRepository userRepository;
 	private final ProductRepository productRepository;
-
+	
+	// 같은 캐시긴 한데 key가 달라서 캐시에서는 못가져옴 리스트 따로 객체 따로 저장되는 듯
+	@Cacheable(value = "user")
 	public List<UserDto> getUserList() throws NotFoundException {
 
 		List<User> users = userRepository.findAll();
@@ -89,6 +90,7 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
+	@Cacheable(value = "user", key = "#name")
 	public UserDto getUserByName(String name) {
 
 		User user = userRepository.findByName(name);
