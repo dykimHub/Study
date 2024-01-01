@@ -14,6 +14,5 @@ public interface UserRepository extends JpaRepository<User, Long>, UserRepositor
 //  findByName은 없어서 jpql로 만듦
 	@Query("SELECT u FROM User u WHERE u.name = :name")
 	User findByName(String name);
-
 	
 }

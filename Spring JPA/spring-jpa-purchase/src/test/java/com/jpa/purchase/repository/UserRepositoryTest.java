@@ -1,15 +1,11 @@
 package com.jpa.purchase.repository;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
-import static org.mockito.Mockito.CALLS_REAL_METHODS;
 
 import java.time.LocalDate;
-import java.util.List;
 import java.util.Optional;
 
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.MethodOrderer;
 import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
@@ -18,9 +14,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.ActiveProfiles;
-import org.springframework.test.context.TestPropertySource;
 
 import com.jpa.purchase.SpringJpaPurchaseApplication;
 import com.jpa.purchase.entity.Product;
@@ -66,7 +60,8 @@ public class UserRepositoryTest {
 
 	@Test
 	public void updateUser() {
-
+		// update는 jpa repository에서 transactional 관리
+		
 		logger.info("Before User Update -> {}", userRepository.findById(2L).get().getName());
 
 		User user = User.builder()
@@ -95,8 +90,11 @@ public class UserRepositoryTest {
 	public void getUserByName() {
 
 		User user = userRepository.findByName("cho");
-
+		
 		assertTrue(user != null);
+		
+		// @transactional 안 넣고 세컨드 캐시 사용 확인
+		logger.info("findByName(cho) -> {}", userRepository.findByName("cho"));
 
 	}
 

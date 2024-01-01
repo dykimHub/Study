@@ -2,6 +2,7 @@ package com.jpa.purchase.controller;
 
 import java.util.List;
 
+import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.crossstore.ChangeSetPersister.NotFoundException;
 import org.springframework.http.HttpStatus;
@@ -17,13 +18,12 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.jpa.purchase.dto.ProductDto;
 import com.jpa.purchase.dto.UserDto;
-import com.jpa.purchase.entity.Product;
-import com.jpa.purchase.entity.User;
 import com.jpa.purchase.service.UserService;
 
 import io.swagger.v3.oas.annotations.Operation;
 import lombok.RequiredArgsConstructor;
 
+@EnableCaching
 @RestController
 //final, @nonnull 붙은 거만 생성자 생성
 @RequiredArgsConstructor
@@ -134,7 +134,7 @@ public class UserController {
 			String errorMessage = e.getMessage();
 			return new ResponseEntity<String>(errorMessage, HttpStatus.INTERNAL_SERVER_ERROR);
 		}
-
+		
 	}
 
 	@GetMapping("/myproducts/{id}")

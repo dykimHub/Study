@@ -1,16 +1,15 @@
  package com.jpa.purchase.service;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.crossstore.ChangeSetPersister.NotFoundException;
 import org.springframework.stereotype.Service;
 
 import com.jpa.purchase.dto.ProductDto;
 import com.jpa.purchase.dto.UserDto;
 import com.jpa.purchase.entity.Product;
-import com.jpa.purchase.entity.User;
 import com.jpa.purchase.repository.product.ProductRepository;
 
 import lombok.RequiredArgsConstructor;
@@ -22,6 +21,7 @@ public class ProductServiceImpl implements ProductService {
 	private final ProductRepository productRepository;
 
 	@Override
+	@Cacheable(value = "product")
 	public List<ProductDto> getProductList() throws NotFoundException {
 		
 		List<Product> products = productRepository.findAll();
