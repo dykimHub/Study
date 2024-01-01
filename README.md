@@ -41,7 +41,7 @@ files: spring-data-jpa(Course, PerformanceTuningTest)
 #### 초기 설정  
 Spring Starter Project 생성: Spring Web, Spring Data JPA, MySQL Driver, Spring Data JDBC, H2 Database, Lombok, Spring Boot DevTools 추가  
 pom.xml: openapi, jackson-core, commons-dbcp2, commons-fileupload, aspectjweaver, aspectjrt 추가 
-src/main/resources: application.properties-> MySQL dataSource 설정  
+src/main/resources: application.properties-> MySQL dataSource 설정, log 레벨 설정  
 getUserList, registUser, getUserbyName, deleteUser 메서드 openapi 테스트
 
 #### QueryDSL  
@@ -69,8 +69,8 @@ src/test/java: repository > UserRepositoryTest, ProductRepositoryTest 생성 (pr
 UserRepository, ProductRepository 메서드 Assertion Testing  
 
 #### Cache  
-pom.xml: ehcache, hibernate-jcache 추가  
-application-test.properties: second-level cache, log-level 설정  
-entity에 @Cacheable 추가  
-JDBC 로그 확인; L2C hits, L2C misses  
-    
+pom.xml: ehcache, hibernate-jcache, spring-boot-starter-cache, com.github.ben-manes.caffeine 추가      
+config > CacheConfig 생성: caffeine cache 커스텀    
+application-properties: ehcache로 second cache 설정       
+entity에 @Cache 추가  
+Service에 @Cacheable 추가  
