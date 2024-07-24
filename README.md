@@ -9,5 +9,5 @@ Welcome to my personal study repository. This is where I keep track of my learni
 
 1. **Spring JPA** ✨
    - https://www.udemy.com/share/10200e3@jFcIjF6lgJNtUsbKrbXj-v0BXuatnIpFrKfmRjM2PMWWM4CTgcvg6I8-BsFtHSMbaA==/
-2. **Docker & kubernetes** 🚀
+2. **Docker & Kubernetes** 🚀
    - https://www.udemy.com/share/103IaC3@epq8YZKS2MAlyhQji8ruCZmTbg9bJcvWPafIsX-pxO0sfFwjjMDxAp9R71HPAZACcg==/
