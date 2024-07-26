@@ -1,0 +1,25 @@
+1) Create appropriate images
+docker build .
+
+2) Launch a container for each created image, making sure,
+that the app inside the container works correctly and is usable.
+docker run -it {imageID}
+
+3) Re-create both containers and assign names to both containers.
+Use these names to stop and restart both containers.
+docker run -it --name pythonapp {imageID}
+# 입출력 끝나면 automatically stop
+docker start -i -a pythonapp
+
+4) Clean up (remove) all stopped (and running) containers,
+clean up all created images.
+docker rm pythonapp
+docker rm {imageID}
+docker image prune -a # 이미지 전체 삭제
+
+5) Re-build the images - this time with names and tags assigned to them.
+docker build -t bmi-app:1 .
+
+6) Run new containers based on the re-built images, ensuring that the containers
+are removed automatically when stopped.
+docker run -it --name bmiapp --rm bmi-app:1
