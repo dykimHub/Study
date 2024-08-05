@@ -1,0 +1,53 @@
+# 컨테이너 정의
+# docker-compose up -d # existing 이미지를 제외하고 build 후 컨테이너 detach mode 실행
+# docker-compose up --build -d # existing 이미지여도 새로 build(Dockerfile 변경된 경우 유용)
+
+services:
+  mongodb:
+    image: "mongo"
+    volumes:
+      - data:/data/db
+    # 컨테이너 이름 지정 가능 안하면 auto generated
+    # container_name: mongodb
+    # 환경 변수는 compose or .env에서 지정
+    # environment:
+    #   MONGO_INITDB_ROOT_USERNAME: max
+    #   MONGO_INITDB_ROOT_PASSWORD: secret
+    env_file:
+      - ./env/mongo.env
+    # compose 파일에 정의된 컨테이너는 same default network를 가짐
+    # special network 정의 가능
+    # networks:
+    #   - goals-net
+
+  backend:
+    build: ./backend
+    # build:
+    #   context: ./backend
+    #   dockerfile: Dockerfile
+    ports:
+      - "80:80"
+    volumes:
+      - logs:/app/logs # named volume
+      - ./backend:/app # bind-mount
+      - /app/node_modules # anonymous volume
+    env_file:
+      - ./env/backend.env
+    depends_on: # mongodb 컨테이너와 연결
+      - mongodb
+
+  frontend:
+    build: ./frontend
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./frontend/src:/app/src
+    # stdin_open: true # -it 명령
+    # tty: true
+    depends_on: #b backend 컨테이너와 연결
+      - backend
+
+# named 볼륨 정의
+volumes:
+  data:
+  logs:
