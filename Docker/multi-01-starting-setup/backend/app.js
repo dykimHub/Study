@@ -80,8 +80,11 @@ app.delete("/goals/:id", async (req, res) => {
   }
 });
 
+// 유저네임:패스워드@{db컨테이너명}
+// authSoruce를 지정했을 때 이전에 존재했던 volume이름을 쓸 경우 자격증명이 다르기 때문에 에러 생김
+// docker volume ls -> docker volume rm {볼륨이름} 하고 새로 빌드하면 해결됨
 mongoose.connect(
-  "mongodb://mongodb:27017/course-goals",
+  `mongodb://${process.env.MONGODB_USERNAME}:${process.env.MONGODB_PASSWORD}@mongodb:27017/course-goals?authSource=admin`,
   {
     useNewUrlParser: true,
     useUnifiedTopology: true,
