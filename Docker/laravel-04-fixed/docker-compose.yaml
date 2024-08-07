@@ -1,0 +1,58 @@
+services:
+  composer:
+    build:
+      context: ./dockerfiles
+      dockerfile: composer.dockerfile
+    volumes:
+      - ./src:/var/www/html
+  server:
+    build:
+      # context: 빌드에 필요한 파일(주로 COPY 명령에서)이 있는 곳
+      # "." == docker-compose와 같은 위치 == build context를 현재 디렉토리로 설정
+      # 범위가 가능한 좁게 설정될수록 좋은데 build context를 ./dockerfiles로 설정하지 않은 이유?
+      # nginx.dockerfile이 nginx/nginx.conf를 COPY하므로 build context가 "."이어야 함
+      context: .
+      dockerfile: dockerfiles/nginx.dockerfile #dockerfiles의 nginx.dockerfile 실행
+    ports:
+      - "8000:80" # 호스트 8000포트에 컨테이너 80포트 연결(nginx.conf의 listen 80)
+    volumes:
+      - ./src:/var/www/html # 호스트 src 폴더를 nginx 컨테이너의 var/www/html에 바인딩
+      - ./nginx/nginx.conf:/etc/nginx/conf.d/default.conf:ro # nginx.conf 파일을 nginx 컨테이너의 etc/nginx/conf.d/default.conf에 읽기 전용으로 바인딩
+    depends_on:
+      - php # php 컨테이너 먼저 시작
+      - mysql # mysql 컨테이너 먼저 시작
+    # composer로 laravel 8.0 기반 프로젝트 생성; docker-compose의 composer 서비스 정의를 기반으로 composer 컨테이너 실행 ->
+    # docker-compose run --rm composer create-project --prefer-dist laravel/laravel:^8.0 . ->
+    # 현재 ./src가 "." 위치, 즉 /var/www/html을 덮고 있으므로(바인딩) laravel 프로젝트 파일이 ./src에 설치되고 호스트에서 보임 ->
+    # (로컬에 laravel 프로그램이 깔려있지 않아도 도커 이미지를 활용하여 개발할 수 있다는 뜻)
+    # ./src의 .env 파일에서 데이터베이스 연결; mysql.env에서 설정한 user name/password 입력, host는 컨테이너명(mysql)으로 설정 가능
+    # docker-compose up server -d 실행하면 server, php, mysql 컨테이너를 detach 모드로 실행
+
+  php:
+    build:
+      context: . # php.dockerfile이 src를 COPY하므로 build context가 "."이어야 함
+      dockerfile: dockerfiles/php.dockerfile
+    volumes:
+      - ./src:/var/www/html:delegated # consistent(기본값): 호스트-컨테이너 즉시 동기화 > delegated > cached
+
+  mysql:
+    image: mysql:5.7
+    env_file:
+      - ./env/mysql.env
+
+  artisan:
+    build:
+      context: .
+      dockerfile: dockerfiles/php.dockerfile # php.dockerfil로 이미지 빌드
+    volumes:
+      - ./src:/var/www/html
+    entrypoint: ["php", "/var/www/html/artisan"] # docker run artisan은 실제 php /var/ww/html/artisan으로 실행
+    # laravel의 데이터베이스 migration 도구. 데이터베이스의 스키마를 쉽게 변경할 수 있음
+    # docker-compose run --rm artisan migrate
+
+  npm:
+    image: node:14
+    working_dir: /var/www/html
+    entrypoint: ["npm"]
+    volumes:
+      - ./src:/var/www/html
