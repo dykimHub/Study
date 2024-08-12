@@ -19,7 +19,7 @@ CMD ["node", "app.js"]
 # docker tag node-dep-example-1 {도커허브 레포지토리}
 # 도커 허브에 로그인
 # docker login
-# 도커 허브의 레포지토리에 push(이름이나 태그가 레포지토리 이름인 이미지가 push됨)
+# 도커 허브의 레포지토리에 push(태그가 레포지토리 이름인 이미지가 push됨)
 # docker push {도커허브 레포지토리}
 
 # 2. ec2에 도커 이미지 설치
