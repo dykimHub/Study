@@ -1,0 +1,40 @@
+# 배포 시 사용할 Docker file
+# 멀티스테이지 빌드
+
+# 컨테이너1
+# 이 빌드 단계를 build라고 명명
+# npm 명령어 쓸 때 필요하므로 node 설치
+FROM node:14-alpine as build
+
+WORKDIR /app
+
+# package.json을 /app에 복사
+COPY package.json .
+
+# package.json에 정의된 의존성 설치
+RUN npm install
+
+# /frontend 파일을 /app에 복사
+COPY . .
+
+# 컨테이너1 /app/build에 컨테이너1에 복사된 /frontend 코드로부터 배포에 최적화된 정적 파일을 생성
+# CMD ["npm", "run", "build"] 하면 컨테이너가 실행될 때마다 정적 파일을 빌드해서 좋지 않음
+RUN npm run build 
+
+# 컨테이너2
+# 컨테이너2에 nginx 설치
+# ngingx는 정적 파일을 빠르고 효율적으로 serve할 수 있음
+# 리버스 프록시로 사용하면 클라이언트의 요청을 받아서 백엔드 서버에 전달함(직접 전달을 막음)
+FROM nginx:stable-alpine
+
+# build 단계의 /app/build 파일을 컨테이너2(nginx) /usr/share/nginx/html에 복사
+# --from=build 안붙이면 로컬의 /app/build 경로를 찾음
+COPY --from=build /app/build /usr/share/nginx/html
+
+# 로컬 개발 환경이 아니어서 3000포트가 아닌 nginx 웹 서버의 80포트를 노출
+# 백엔드도 80포트 인데 task랑 loadbalancer 다르게 하면 url 달라서 괜찮음
+EXPOSE 80
+
+CMD ["nginx", "-g", "daemon off;"]
+
+#  docker build -f Dockerfile.prod -t dyckerkim/goals-react .
