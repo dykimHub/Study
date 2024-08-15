@@ -1,0 +1,15 @@
+VPC(Virtual Private Cloud)
+- 사용자의 네트워크 환경을 정의하는 논리적인 네트워크
+- (You can launch AWS resources in a logically isolated virtual network)
+서브넷
+- VPC내에서 IP 주소를 더 작게 나눈 범위
+Security Group(서브넷과 별개의 개념)
+- VPC내의 가상 방화벽의 정의
+- 서브넷에 리소스(ECS 등)를 설치할 때 각 리소스가 어떤 트래픽을 허용할지 설정하는 역할
+- 인바운드룰 예시: http 프로토콜에서는 80 포트로만 접근 가능
+- 아웃바운드룰 예시: http 프로토콜에서는 모든 포트로 트래픽을(데이터 등) 보낼 수 있음
+시큐리티 그룹에서 정의한 룰을 같이 쓰는 서비스끼리 통신 가능
+- Load Balacer는 ECS에 속하지 않지만(여러 ECS와 연결될 수 있음) 동일한 Security Group을 사용하면서 통신함(ex. 80 포트 허용 등)
+- EFS는 ECS, VPC에 속하지 않고(여러 ECS, VPC와 연결될 수 있음), Security Group을 직접 지정하지 않지만 연결된 Task의 시큐리티 그룹을 사용하면서 통신
+node.js 컨테이너가 80포트를 쓰고 있는데 nginx 컨테이너도 80포트를 쓰고 있어서 서로 다른 load balancer(혹은 서비스)가 필요
+- client -> 프론트엔드 lb -> 프론트엔드 서비스 -> 백엔드 lb -> 백엔드 서비스 -> 백엔드 lb -> 프론트엔드 서비스 -> ,,,
