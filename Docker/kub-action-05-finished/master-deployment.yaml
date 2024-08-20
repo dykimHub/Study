@@ -1,0 +1,85 @@
+# deployment와 service 한번에 생성
+# service.yaml
+apiVersion: v1
+kind: Service
+metadata:
+  name: backend
+  labels: # label로 group, app, tier, environment 등 지정 가능
+    group: example
+spec:
+  selector:
+    app: second-app
+  ports:
+    - protocol: "TCP"
+      port: 80
+      targetPort: 8080
+  type: LoadBalancer
+--- # 리소스 구분 반드시 3개의 bar
+# deployment.yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: second-app-deployment
+  labels:
+    group: example
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: second-app
+      tier: backend
+  template:
+    # kind: Pod
+    metadata:
+      labels:
+        app: second-app
+        tier: backend
+    spec:
+      containers:
+        - name: second-node
+          image: dyckerkim/kub-first-app:latest
+          imagePullPolicy: Always
+          resources:
+            requests:
+              memory: "128Mi"
+              cpu: "250m"
+            limits:
+              memory: "256Mi"
+              cpu: "500m"
+# config 파일로 deployment, service 생성 방법
+# 1. 따로따로
+# kubectl apply -f=deployment.yaml
+# kubectl apply -f=service.yaml
+# 2. 같이
+# kubectl apply -f=deployment.yaml,service.yaml
+# kubectl apply -f=deployment.yaml, -f=service.yaml
+# 3. 마스터 파일
+# kubectl apply -f=master-deployment.yaml
+
+# 삭제
+# 1. 생성 cmd에서 apply를 delete로 바꿔서 실행
+# 2. 그룹별 삭제
+# kubectl delete all -l group=example
+# example 그룹 안에 있는 pod, service 삭제됨
+# 그런데 kubectl delete all -l tier=backend 이런 식으로 deployment 자체가 아닌 pod을 삭제하면
+# 현재 deployment는 3개의 replica를 유지해야 하므로 3개의 pod을 재생성함
+
+# 재시작
+# network등의 문제로 인해 연결 끊기면 자동으로 재시작함
+# kubectl rollout restart deployment/second-app-delployment
+
+# 배포 되돌리기
+# 0. 배포 이력 확인
+# kubectl rollout history deployment/second-app-deployment
+# kubectl rollout history deployment/second-app-deployment --revision=2
+# 1. 직전
+# kubectl rollout undo deployment/second-app-deployment
+# 2. 특정 리비전으로
+# kubectl rollout undo deployment/second-app-deployment --to-revision=2
+# 3. 확인
+# kubectl rollout status deployment/second-app-deployment
+
+# 기타
+# kubectl describe deployment/second-app
+# kubectl logs <pod_name>
+

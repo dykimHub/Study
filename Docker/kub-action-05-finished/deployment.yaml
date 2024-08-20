@@ -1,0 +1,43 @@
+apiVersion: apps/v1
+kind: Deployment # group: apps, version: v1, kind: Deployment
+metadata:
+  name: second-app-deployment # kubectl create deployment {name} ~ 과 같음
+  labels:
+    group: example # example 그룹에 속하는 리소스(pods, service 등)
+spec:
+  replicas: 1 # deployment가 유지하는 pod 복제본 개수
+  selector: # pod 식별자(이 deployment는 아래의 조건과 모두 일치하는 pods를 관리)
+    matchLabels: # app label이 second-app이고, tier label이 backend이면 관리
+      app: second-app # second-app이라는 app을 관리할 pod
+      tier: backend
+    # matchExpressions: # app label이 second-app이거나 first-app이면 관리
+    #   - {key: app, operator: In, values: [second-app, first-app]}
+  template: # 이 deployment가 생성할 pod을 정의
+    # kind: Pod # default가 pod
+    metadata:
+      labels: # 이 pod의 app label은 second-app, app tier는 backend로 정의
+        app: second-app
+        tier: backend # 만약에 frontend로 바꾸면 pod 생성은 되지만 이 deployment로 관리되지 않음
+    spec:
+      containers:
+        - name: second-node # pod 안에 설치될 container를 정의
+          image: dyckerkim/kub-first-app:latest # 이미지 주소 태그 latest여야 always 정책 사용 가능
+          # Always이면 pod을 resetart/delete 하거나 새로운 이미지/컨테이너 생성하면 항상 최신 이미지 pull
+          # 장점: 최신 이미지를 쉽게 적용시킬 수 있음 단점: 한 노드(클러스터 내의 가상머신)에 다른 버전의 이미지가 적용됨
+          # 다른 정책: IfNotPresent(기본값, 이미지 없으면 pull하고 아니면 pull안하고 이 노드에 캐시된 이미지 사용), Never(이미지 Pull 안 함)
+          imagePullPolicy: Always
+          livenessProbe: # health check
+            httpGet: # http://localhost:8080/ 으로 get 요청을 10초에 한번씩 보내서 상태 확인
+              path: /
+              port: 8080
+            periodSeconds: 10
+            initialDelaySeconds: 5 # 컨테이너 시작 후 5초 후에 initial check
+          resources: # 컴퓨터 리소스 정의
+            requests:
+              memory: "128Mi" # 최소 128MiB의 메모리
+              cpu: "250m" # 최소 250 밀리코어(0.25 vCPU)
+            limits:
+              memory: "256Mi" # 최대 256MiB의 메모리
+              cpu: "500m" # 최대 500 밀리코어(0.5 vCPU)
+        # - name: second-node-2 # pod 안에 여러 개의 container를 설치할 수 있음
+        #   image: dyckerkim/kub-first-app:latest # 숫자 태그이면 기본적으로 이미지가 없으면 해당 버전을 가져오는 IfNotPresent를 수행
