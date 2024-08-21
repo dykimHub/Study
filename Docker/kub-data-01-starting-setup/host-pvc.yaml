@@ -1,0 +1,16 @@
+# persistent volume claim
+# PVC를 통해 "나에게 이 정도 크기와 성능의 스토리지가 필요해"라고 요청할 수 있음
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: host-pvc
+spec:
+  volumeName: host-pv # 정적 프로비저닝을 사용하여 pv를 지정함. volumeName을 지정하지 않으면(동적 프로비저닝) 쿠버네티스가 pvc에 맞는 pv를 찾아서 바인딩
+  accessModes:
+    - ReadWriteOnce # readwriteonce를 지원하는 pv를 매칭
+  storageClassName: standard # storageclassname이 standard인 pv를 매칭
+  resources:
+    requests:
+      storage: 1Gi # 최소 1Gi 용량의 스토리지를 요청
+# kubectl apply -f=host-pvc.yaml
+# kubectl get pvc

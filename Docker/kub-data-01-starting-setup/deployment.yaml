@@ -1,0 +1,40 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: story-deployment
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: story-app
+  template:
+    metadata:
+      labels:
+        app: story-app
+    spec:
+      containers:
+        - name: story-app
+          image: dyckerkim/kub-data-demo:latest
+          imagePullPolicy: Always
+          env:
+            - name: STORY_FOLDER
+              # value: "story" # environment.yaml을 쓰지 않을 경우
+              valueFrom:
+                configMapKeyRef:
+                  name: data-store-env # environment.yaml에 설정된 이름
+                  key: folder # environment.yaml에 지정된 key
+          volumeMounts:
+            - mountPath: /app/story # pv에서 지정된 경로의 볼륨을 컨테이너의 /app/story에 연결
+              name: story-volume
+          resources:
+            limits:
+              memory: "128Mi"
+              cpu: "500m"
+      volumes:
+        - name: story-volume
+          # emptyDir: {} # 데이터가 저장된 pod이 멈춰서 다른 replica를 실행했을 때 데이터 경로에 접근하지 못함, Volumes are destroyed when a Pod is removed
+          # hostPath: # 경로 지정해줘서 다른 pod도 찾을 수 있으나 다른 node에서는 못 찾음(minikube는 singel-node setup이라 ㄱㅊ)
+          #   path: /data
+          #   type: DirectoryOrCreate # 경로 없으면 생성
+          persistentVolumeClaim:
+            claimName: host-pvc # node 외부에서 pv claim, pv를 정의한 후 pv claim에서 정의한 pv를 사용. 이론상으로는 fully independent하나 pv에서 hostpath 등을 사용할 경우 그 pv는 노드에 종속

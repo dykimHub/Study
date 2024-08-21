@@ -1,0 +1,20 @@
+# pods과 nodes에 independent한 (pod이나 node가 삭제돼도 남아있는) persistent volume 정의
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: host-pv
+spec:
+  capacity:
+    storage: 1Gi # 용량 1기가
+  volumeMode: Filesystem # 폴더 만들어서 파일 접근하는 모드
+  storageClassName: standard # 클라우드에서 사용할 저장소를 정의
+  accessModes:
+    - ReadWriteOnce # same node
+    # - ReadOnlyMany # read only but multiple pods on different nodes (not be available with minikube)
+    # - ReadWriteMany # multiple pods on different nodes (not be available with minikube)
+  hostPath: # not be independent from the nodes but be independent from the pods
+    path: /data
+    type: DirectoryOrCreate
+# kubectl apply -f=host-pv.yaml
+# kubectl get pv
+# kubectl get sc # storage class 목록 보기
