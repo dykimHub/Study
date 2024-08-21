@@ -1,0 +1,12 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: users-service
+spec:
+  selector:
+    app: users # deployment에서 app label이 users인 경우만 적용
+  type: LoadBalancer
+  ports:
+    - protocol: TCP
+      port: 8080
+      targetPort: 8080 # users-api 포트번호만 외부에 노출하고 auth-api는 노출하지 않고 내부 통신함

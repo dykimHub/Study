@@ -1,0 +1,31 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: users-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: users
+  template:
+    metadata:
+      labels:
+        app: users
+    spec:
+      # 같은 pod에 2개의 container를 생성해서 같은 network namespace(IP, 포트 등 포함)를 공유하고 localhost로 통신함
+      containers:
+        - name: users
+          image: dyckerkim/kub-demo-users:latest
+          env:
+            - name: AUTH_ADDRESS
+              value: localhost
+          resources:
+            limits:
+              memory: "128Mi"
+              cpu: "500m"
+        - name: auth
+          image: dyckerkim/kub-demo-auth:latest
+          resources:
+            limits:
+              memory: "128Mi"
+              cpu: "500m"
