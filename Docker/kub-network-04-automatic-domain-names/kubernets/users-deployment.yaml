@@ -12,19 +12,14 @@ spec:
       labels:
         app: users
     spec:
-      # 같은 pod에 2개의 container를 생성해서 같은 network namespace(IP, 포트 등 포함)를 공유하고 localhost로 통신함
       containers:
         - name: users
           image: dyckerkim/kub-demo-users:latest
           env:
             - name: AUTH_ADDRESS
-              value: localhost
-          resources:
-            limits:
-              memory: "128Mi"
-              cpu: "500m"
-        - name: auth
-          image: dyckerkim/kub-demo-auth:latest
+              # value: "10.107.120.4" # # 1. ClusterIP는 생성되고 나서는 바뀌지 않아서 IP 주소 직접 사용 가능(kubectl get services -> cluster-ip 항목)
+              value: "auth-service.default" # 2. 쿠버네티스에 내장된 cordDNS 기능을 통해 서비스 domain 설정 가능: 서비스명 + kubectl get namespaces해서 원하는 namespace
+            # 3. 쿠버네티스에서 auto-generated한 서비스 환경 변수로 서비스에 접근 가능: 서비스명 + SERVICE_HOST ex) AUTH_SERVICE_SERVICE_HOST
           resources:
             limits:
               memory: "128Mi"

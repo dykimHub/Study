@@ -9,4 +9,4 @@ spec:
   ports:
     - protocol: TCP
       port: 8080
-      targetPort: 8080 # users-api 포트번호만 외부에 노출하고 auth-api는 노출하지 않고 내부 통신함
+      targetPort: 8080
