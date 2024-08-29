@@ -1,0 +1,40 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: tasks-service
+spec:
+  selector:
+    app: tasks
+  type: LoadBalancer # 외부와 통신해야하는 pod
+  ports:
+    - protocol: TCP
+      port: 80 # 서비스를 노출할 포트 # pod 다르면 포트번호 같아도 상관 없음
+      targetPort: 3000 # tasks-app.js app.listen(3000) 앱 내부에서 수신하고 있는 포트
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: tasks-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: tasks
+  template:
+    metadata:
+      labels:
+        app: tasks
+    spec:
+      containers:
+        - name: tasks-api
+          image: dyckerkim/kub-dep-tasks
+          env:
+            - name: MONGODB_CONNECTION_URI
+              # value: "mongodb+srv://maximilian:wk4nFupsbntPbB3l@cluster0.ntrwp.mongodb.net/users?retryWrites=true&w=majority" # mongo Atlas
+              value: "mongodb://max:secret@mongodb-service.default:27017/users?authSource=admin" # mongodb://사용자:비번@mongo-service의 DNS:포트번호로 연결
+            - name: AUTH_API_ADDRESS
+              value: "auth-service.default:3000" # auth-servic의 DNS:포트번호
+          # resources:
+          #   limits:
+          #     memory: "128Mi"
+          #     cpu: "500m"

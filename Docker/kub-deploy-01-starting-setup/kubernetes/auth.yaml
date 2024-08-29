@@ -1,0 +1,37 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: auth-service
+spec:
+  selector:
+    app: auth
+  type: ClusterIP # 내부에서만 통신해도 되는 pod
+  ports:
+    - protocol: TCP
+      port: 3000 # 서비스를 노출할 포트
+      targetPort: 3000 # auth-app.js app.listen(3000) 앱 내부에서 수신하고 있는 포트
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: auth-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: auth
+  template:
+    metadata:
+      labels:
+        app: auth
+    spec:
+      containers:
+        - name: auth-api
+          image: dyckerkim/kub-dep-auth:latest # latest 태그는 restart하면 가장 최신 이미지 pull
+          env:
+            - name: TOKEN_KEY
+              value: "shouldbeverysecure"
+          # resources:
+          #   limits:
+          #     memory: "128Mi"
+          #     cpu: "500m"
