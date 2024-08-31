@@ -1,0 +1,43 @@
+services:
+  mongodb:
+    image: "mongo"
+    ports:
+      - "27017:27017"
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: "max"
+      MONGO_INITDB_ROOT_PASSWORD: "secret"
+    volumes:
+      - data:/data/db
+  auth:
+    build: ./auth-api
+    ports:
+      - "8000:3000"
+    environment:
+      TOKEN_KEY: "shouldbeverysecure"
+  users:
+    build: ./users-api
+    ports:
+      - "8080:3000"
+    environment:
+      MONGODB_CONNECTION_URI: "mongodb://max:secret@mongodb:27017/users?authSource=admin"
+      AUTH_API_ADDRESS: "auth:3000"
+    depends_on:
+      - mongodb
+  tasks:
+    build: ./tasks-api
+    ports:
+      - "3000:3000"
+    environment:
+      MONGODB_CONNECTION_URI: "mongodb://max:secret@mongodb:27017/users?authSource=admin"
+      AUTH_API_ADDRESS: "auth:3000"
+    depends_on:
+      - mongodb
+  frontend:
+    build: ./frontend
+    ports:
+      - "80:80"
+    volumes:
+      - ./frontend/src:/app/src
+
+volumes:
+  data:
