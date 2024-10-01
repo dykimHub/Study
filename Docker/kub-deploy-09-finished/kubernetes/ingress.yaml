@@ -62,3 +62,7 @@ spec:
 # DNS 트래픽 라우팅; 사용자가 도메인 이름을 입력하면 IP 주소로 라우팅
 # Route 53에서 hosting zone을 추가하고 ALB Controller 주소를 레코드에 추가
 # 도메인을 구매한 곳(가비아 등)의 네임 서버에 Route 53의 네임 서버를 붙여넣기
+# Cloud Watch
+# eks cluster의 node 그룹의 iam의 정책 권한에  CloudWatchAgentServerPolicy 추가
+# aws eks create-addon --cluster-name my-cluster-name --addon-name amazon-cloudwatch-observability
+# https://docs.aws.amazon.com/ko_kr/AmazonCloudWatch/latest/monitoring/Container-Insights-setup-EKS-quickstart.html 따라하기
